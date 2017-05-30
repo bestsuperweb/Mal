@@ -1,0 +1,41 @@
+.part-1
+  h3 About #{@user.display_name}
+  p
+    = @user.description
+  .row
+    .col-md-4
+      h3 Instruments
+      - if @user.instruments.present?
+        ul.about-list
+          - @user.instruments.each do |i|
+            li #{i.name}
+      - else
+        p 
+          | No instruments have been added yet
+    .col-md-4
+      h3 Genres
+      - if @user.genres.present?
+        ul.about-list
+          - @user.genres.each do |i|
+            li #{i.name}
+      - else
+        p 
+          | No genres have been added yet
+    .col-md-4
+      h3 Levels
+      - if @user.levels.present?
+        ul.about-list
+          - @user.levels.each do |i|
+            li #{i.name}
+      - else
+        p 
+          | No levels have been added yet
+.part-4
+  - if @user.external_links.present?
+    - @user.external_links.each do |l|
+      iframe allowfullscreen="" height="250" src="#{l.url}" width="100%" frameborder="no" scrolling="no"
+  - else 
+    .well
+      center
+        = "#{@user.full_name} does not have any external links yet"
+.clearfix

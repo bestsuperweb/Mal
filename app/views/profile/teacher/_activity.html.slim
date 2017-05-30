@@ -1,0 +1,17 @@
+.part-1
+  = render "profile/user_activities", activities: @teacher_activity
+.part-2
+  = render "profile/teacher/review_content"
+.part-3
+  ul.category
+    li
+      - if @user.verified?
+        = image_tag "cate-check.png"
+      p
+        | MUSIC ACADEMY
+        - if @user.verified?
+          a href="" VERIFIED
+        - else
+          a href="" NOT VERIFIED YET
+        | MEMBER
+.clearfix

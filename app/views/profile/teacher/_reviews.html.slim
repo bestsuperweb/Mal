@@ -1,0 +1,18 @@
+.part-1
+	= render "profile/teacher/review_content"
+.part-4
+	- if current_user && @user != current_user		
+		.row
+			.col-md-12
+				= form_for Review.new, url: create_review_path do |f|
+					.form-group
+						center
+							= f.number_field :rate, class: "rating"
+					.form-group
+						= f.text_area :body, rows: 5, class: "form-control", placeholder: "Write some details please..."
+					.form-group
+						= f.hidden_field :user_id, value: @user.id
+						= f.hidden_field :author_id, value: current_user.id
+						= f.submit "Add review", class: "pull-right btn btn-primary btn-block blue-btn"
+
+.clearfix

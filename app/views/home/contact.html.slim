@@ -1,0 +1,32 @@
+section.intro-page
+  .container
+    .ct-intro-page
+      h3 Contact Us
+main
+  .container
+    section#register.register1
+      .containt-intro
+        .row
+          .col-md-6.col-md-offset-3
+            .profile-info
+              br
+              = form_for @contact_form, html: {class: "contact-form-page"} do |f|
+                .hidden
+                  = f.hidden_field :nickname, :hint => 'Leave this field blank!'
+                .form-group
+                  = f.text_field :name, class: "form-control", placeholder: "What's your name?", autofocus: true, data: { validation: "required", "validation-error-msg": "Name can't be blank" }
+                .form-group
+                  = f.text_field :email, class: "form-control", placeholder: "What's your email address?", data: { validation: "email", "validation-error-msg": "Invalid email address" }
+                .form-group
+                  = f.label "Category"
+                  = f.select :category, ["Billing", "Technical Support", "Resolution Center", "Other"], {}, {class: "form-control", data: { validation: "required", "validation-error-msg": "Category can't be blank" } }
+                .form-group
+                  = f.label "Priority"
+                  = f.select :priority, ["Low", "Medium", "High"], {}, {class: "form-control", data: { validation: "required", "validation-error-msg": "Category can't be blank" }}
+                .form-group
+                  = f.text_field :subject, class: "form-control", placeholder: "Subject", data: { validation: "required", "validation-error-msg": "Subject can't be blank" }
+                .form-group
+                  = f.text_area :message, class: "form-control", rows: 5, placeholder: "Your Message...", data: { validation: "required", "validation-error-msg": "Message can't be blank" }
+                .modal-footer
+                  div
+                    button.btn.btn-info type="submit" Send Message

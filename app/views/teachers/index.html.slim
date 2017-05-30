@@ -1,0 +1,56 @@
+section.intro-page.skip-bottom-margin
+  .container
+    .ct-intro-page.negative-bottom-margin
+      h1 Teachers
+          
+main
+  .container
+    .list-page
+      = search_form_for @q, url: teachers_path, class: "filters-form", id: "search-filters", remote: true do |f|
+        .row
+          .col-md-12
+            h3 Adjust your search:
+        .row
+          .col-md-4
+            .form-group
+              = f.search_field :full_name_cont, value: params[:q].try(:[], :full_name_cont), class: "form-control", placeholder: "Name"
+          .col-md-4
+            .form-group
+              = f.search_field :email_cont, value: params[:q].try(:[], :email_cont), class: "form-control", placeholder: "Email address"
+          .col-md-4
+            .form-group
+              = f.hidden_field :city_cont, value: params[:q].try(:[], :city_cont), "data-geo" => "locality"
+              = text_field_tag :locality, params[:q].try(:[], :city_cont), class: "form-control search-geocomplete", placeholder: "City"
+        .row
+          .col-md-4
+            | INSTRUMENTS
+            .form-group
+              - Instrument.all.each do |i|
+                = check_box_tag 'q[instruments_name_cont_any][]', i.name, nil, {checked: params[:q].try(:[], 'instruments_name_cont_any').try(:include?, i.name) ? true : false}
+                | &nbsp;&nbsp;&nbsp;
+                = i.name
+                br
+          .col-md-4
+            | GENRES
+            .form-group
+              - Genre.all.each do |i|
+                = check_box_tag 'q[genres_name_cont_any][]', i.name, nil, {checked: params[:q].try(:[], 'genres_name_cont_any').try(:include?, i.name) ? true : false}
+                | &nbsp;&nbsp;&nbsp;
+                = i.name
+                br
+          .col-md-4
+            | LEVELS
+            .form-group
+              - Level.all.each do |i|
+                = check_box_tag 'q[levels_name_cont_any][]', i.name, nil, {checked: params[:q].try(:[], 'levels_name_cont_any').try(:include?, i.name) ? true : false}
+                | &nbsp;&nbsp;&nbsp;
+                = i.name
+                br
+        .row
+          .col-md-4.col-md-offset-8
+            = f.submit "Filter Results", class: "pull-right blue-btn btn-block"
+      hr
+      #search-results
+        = render "search_results"
+    /! end list-page
+/! end header

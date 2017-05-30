@@ -1,0 +1,24 @@
+section.intro-page
+  .container
+    .ct-intro-page
+      h3 Sign in
+main
+  .container
+    section#register.register1
+      .containt-intro
+        .row
+          .col-md-6.col-md-offset-3
+            .profile-info
+              br
+              = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+                .error
+                  = devise_error_messages!
+                .form-group
+                  = f.email_field :email, class: "form-control", placeholder: "Email address", autofocus: true, data: { validation: "required", "validation-error-msg": "Email can't be blank" }
+                .form-group
+                  = f.password_field :password, class: "form-control", placeholder: "Password", data: { validation: "required", "validation-error-msg": "Password can't be blank" }
+                .modal-footer
+                  .shared
+                    = render 'user/shared/links'
+                  div
+                    button.btn.btn-info type="submit"  Log in

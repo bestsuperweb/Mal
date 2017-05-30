@@ -1,0 +1,81 @@
+doctype html
+html lang="en"
+  head
+    meta charset="utf-8"
+    meta content="IE=edge" http-equiv="X-UA-Compatible"
+    meta content="width=device-width, initial-scale=1" name="viewport"
+    title Music Academy Live
+    = stylesheet_link_tag     "application", media: 'all'
+    = csrf_meta_tags
+    script src="//maps.googleapis.com/maps/api/js?sensor=false&libraries=places,geometry" 
+    = javascript_include_tag  "application"
+  body
+    header.home-page
+      .container
+        .left-header
+          a href="/" 
+            = image_tag "logo.png"
+        .right-header
+          = search_form_for @q, url: teachers_path, class: "frm-search" do |f|
+            ul.nav-bar
+              li
+                = f.select :instruments_name_eq, options_from_collection_for_select(Instrument.all, :name, :name, params[:q].try(:[],:instruments_name_eq)), include_blank: "Any Instrument"
+              li
+                = f.select :genres_name_eq, options_from_collection_for_select(Genre.all, :name, :name, params[:q].try(:[],:genres_name_eq)), include_blank: "Any Genre"
+              li
+                = f.select :levels_name_eq, options_from_collection_for_select(Level.all, :name, :name, params[:q].try(:[],:levels_name_eq)), include_blank: "Any Level"
+              li
+                button type="submit" 
+                  = image_tag "search.png"
+                  | &nbsp;&nbsp;Search Lessons
+              li
+                - if user_signed_in?
+                  = link_to "logout", destroy_user_session_path, method: :delete
+                - else
+                  = link_to "Sign in", new_user_session_path
+          ul.main-menu
+            li
+              - if current_user
+                a href="/profile"  home
+              - else
+                a href="/"  home
+            li
+              = link_to "about", about_path
+            li
+              = link_to "teachers", teachers_path
+            li
+              = link_to "contact", contact_path
+            li
+              = link_to "register", register_path unless user_signed_in?
+    = render "layouts/flash_messages"
+    = yield
+    footer.home-page
+      .container
+        .logo-footer
+          .left-footer
+            a href="/" 
+              = image_tag "logo.png"
+          .right-footer
+            ul.main-menu
+              li
+                a href="/"  home
+              li
+                = link_to "about", about_path
+              li
+                = link_to "teachers", teachers_path
+              li
+                = link_to "contact", contact_path
+              li
+                = link_to "register", register_path unless user_signed_in?
+          .clearfix
+      .copy-right
+        .container
+          p &copy; COPYRIGHT 2016. ALL RIGHTS RESERVED.
+          ul.term
+            li
+              = link_to "PRIVACY POLICY", privacy_path
+            li
+              = link_to "TERMS OF USE", terms_path
+          .clearfix
+    /![if lt IE 9]
+      / = javascript_include_tag 'html5shiv'

@@ -1,0 +1,46 @@
+section.intro-page
+  .container
+    .ct-intro-page
+      h3 Credit payment
+main
+  .container
+    section.register1
+      = form_for @credit, url: credits_path, method: :post, html: { class: "payment-frm" } do |f|
+        .containt-intro
+          .row
+            .col-md-6.col-sm-6.col-xs-12
+              .profile-info
+                .profile-index
+                  h3 Confirmation
+                - if @credit.express_token.blank?
+                  p Something went wrong, please try later
+                - else
+                  = f.hidden_field :express_token
+                  = hidden_field_tag :param, params[:param]
+                  h4 Payment information:
+                  br
+                  .form-group
+                    label Email: #{@credit.payer_email}
+                  .form-group
+                    label Buyer:  #{@credit.first_name} #{@credit.last_name}
+                  - if params[:param] == '3'
+                    .form-group
+                      label Credit plan: 3 Credits Plan (Basic) 
+                  - elsif params[:param] == '6'
+                    .form-group
+                      label Credit plan: 6 Credits Plan (Advanced)
+                  - elsif params[:param] == '12'
+                    .form-group
+                      label Credit plan: 12 Credits Plan (Major)
+                  - else
+                    .form-group
+                      label 1 Credit
+                  .form-group
+                    label Amount: #{number_to_currency(@credit.price)}
+            .col-md-6.col-sm-6.col-xs-12
+              .step-info
+                = image_tag "curency.png"
+                p Aliquam nec nulla ac nisi dignissim dictum. Phasellus quis tortor. In ullamcorper justo.
+        .btn-register1
+          - unless @credit.express_token.blank?
+            input.continute-btn type="submit" value="PAY"

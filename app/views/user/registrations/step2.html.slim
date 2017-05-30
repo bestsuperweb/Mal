@@ -1,0 +1,48 @@
+section.intro-page
+  .container
+    .ct-intro-page
+      h5 REGISTRATION
+      h3 Create your Music Academy Live account. It's free to sign up!
+main
+  .container
+    section.register1
+      .containt-intro
+        .row
+          .col-md-6.col-sm-6.col-xs-12
+            .profile-info
+              .profile-index
+                h3 Profile Picture
+              p Sed dapibus lacus vel velit. Integer quis neque.
+              .info-item
+                .row
+                  = form_for(@user, url: update_info_path, method: :patch, html: { multipart: true, class: "dropzone", id: "new_avatar" }) do |f|
+                    div.fallback
+                      = f.file_field :avatar
+                      = f.submit "Upload"
+                b By uploading a file you certify that you have the right to distribute this picture and that it does not violate the Terms of Service.
+          .col-md-6.col-sm-6.col-xs-12
+            .step-index
+              - if @user.teacher?
+                ul
+                  li.bg-main
+                    span
+                  li.active
+                    span
+                    .tooltip-step step 2
+              - else
+                ul
+                  li.bg-main
+                    span
+                  li.active
+                    span
+                    .tooltip-step step 2
+                  li
+                    span
+            .step-info
+              = image_tag "regis-2.png"
+              p Aliquam nec nulla ac nisi dignissim dictum. Phasellus quis tortor. In ullamcorper justo.
+              p.last-line Sed dapibus lacus vel velit. Integer quis neque.
+      .btn-register1
+        = form_tag(update_info_path, method: :patch)
+          = submit_tag "CANCEL", class: "cancel-btn", name: "cancel"
+          = submit_tag "CONTINUE", class: "continute-btn", name: "continue"

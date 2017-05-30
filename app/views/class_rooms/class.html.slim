@@ -1,0 +1,452 @@
+doctype html
+html lang="en"
+  head
+    meta charset="utf-8"
+    meta content="IE=edge" http-equiv="X-UA-Compatible"
+    meta content="width=device-width, initial-scale=1" name="viewport"
+    meta content="#{current_user.try(:id)}" name="user-id"
+    title Music Academy Live
+    = stylesheet_link_tag "application", media: 'all'
+    = csrf_meta_tags
+  body.is-class.is-live
+    .modal#inactiveModal tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static"  data-keyboard="false"
+      .modal-dialog role="document"
+        .modal-content
+          .modal-header
+            h4#myModalLabel.modal-title Class time was expire
+          .modal-body
+            = link_to "Go to profile", profile_path
+    header
+      - current_user ||= User.new(first_name: "Test", last_name: "User")
+      .container
+        .left-header
+          a href="/profile" 
+            = image_tag "logo.png"
+        .right-header
+          ul.nav-bar-class
+            .float-left
+              span.status Live
+              li.class-type
+                p
+                  = @lesson.name
+              li
+                p
+                  | Between 
+                  = link_to "#{@teacher.full_name}", profile_path(@teacher.id), target: "_blank"
+                  |  and 
+                  = link_to "#{@student.full_name}", profile_path(@student.id), target: "_blank"
+            .float-right
+              li.duration
+                span TIME LEFT
+              li.duration-time#timer
+              li.user
+                = link_to profile_path, target: "_blank" do
+                  = image_tag @student.avatar.url(:thumb), class: "avatar-circular-chat"
+                  span #{@student.first_name}
+    main
+      .container
+        section.class1
+          .class-chat#txtChat
+            .teacher
+              = image_tag @teacher.avatar.url(:thumb), class: "avatar-circular"
+              .teacher-name
+                h3
+                  = "#{@teacher.full_name}"
+                p
+                  = "#{@teacher.location}"
+            .chat-window
+              #chat-content
+              .send-message
+                form
+                  textarea#msgTxt placeholder="Start Typing here..." rows="1"
+          .live-video.chat-open
+            #publisher-container
+              #myPublisherDiv
+            .inner
+              a.chat-toggle style="display: none;"
+                = image_tag "chat-toggle1.png"
+              #subscribersDiv.user-cam
+              .controls
+                a#audio
+                  = image_tag "video-controls1.png"
+                a#video
+                  = image_tag "video-controls3.png"
+                a#disconnect 
+                  = image_tag "video-controls4.png"
+    footer
+      .container
+        .logo-footer
+          .left-footer
+            a href="/" 
+              = image_tag "logo.png"
+          .right-footer
+            ul.main-menu
+              li
+                a href="/"  home
+              li
+                = link_to "about", about_path
+              li
+                = link_to "teachers", teachers_path
+              li
+                = link_to "contact", contact_path
+          .clearfix
+      .copy-right
+        .container
+          p &copy; COPYRIGHT 2016. ALL RIGHTS RESERVED.
+          ul.term
+            li
+              = link_to "PRIVACY POLICY", privacy_path
+            li
+              = link_to "TERMS OF USE", terms_path
+          .clearfix
+    = javascript_include_tag  "application"
+    /= subscribe_to @subscribe_path
+    /![if lt IE 9]
+      / = javascript_include_tag 'html5shiv'
+    audio id="chatAudio"
+      source src="/sounds/notification.mp3" type="audio/mpeg"
+    javascript:
+      window.onload = function() {
+
+        function getCookie(name) {
+          var matches = document.cookie.match(new RegExp(
+            "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+          ));
+          return matches ? decodeURIComponent(matches[1]) : undefined;
+        }
+
+        var messages = getCookie('message');
+
+        if (messages != undefined){
+          var jsMesagges = JSON.parse(messages);
+          for (var item in jsMesagges) {
+            var msgContainer = document.querySelector('#chat-content');
+            var msgDiv = document.createElement('div');
+            msgDiv.className = 'message';
+            var imgDiv = document.createElement('div');
+            imgDiv.className = 'user-img';
+            var content = document.createElement('div');
+            content.className = 'content';
+            var h4 = document.createElement('h4');
+            var span = document.createElement('span');
+            var time = new Date();
+            var msg = document.createElement('p');
+            var img = document.createElement('img');
+            img.className = 'avatar-circular-chat';
+
+            h4.innerHTML = jsMesagges[item].name;
+            img.src = jsMesagges[item].img;
+            msg.innerHTML = jsMesagges[item].body;
+
+            imgDiv.appendChild(img);
+            content.appendChild(h4);
+            content.appendChild(msg);
+
+            msgDiv.appendChild(imgDiv);
+            msgDiv.appendChild(content);
+            msgContainer.appendChild(msgDiv);
+          }
+        }
+
+        //check text_area and submit form
+        //$(document).on('keydown', '.chatboxtextarea', function(event){
+          //var id = $(this).data('cid');
+          //chatBox.checkInputKey(event, $(this), id);
+        //});
+
+        //scroll messages content after reload page
+        var scroll = $('#chat-content');
+        var height = scroll[0].scrollHeight;
+        scroll.scrollTop(height);
+
+        // timer
+        var e = "#{@end_class}";
+        var finish = new Date(e);
+        $("#timer").countdown({
+          until: finish,
+          compact: true,
+          format: 'HMS',
+          alwaysExpire: true,
+          onExpiry: function() {
+            $("#inactiveModal").modal('show');
+            disconnect();
+          }
+        });
+
+        // OpenTok
+        var apiKey = "#{@apiKey}";
+        var sessionId = "#{@sessionId}";
+        var token = "#{@token}";
+        var session;
+        var publisher;
+        var subscriber;
+        var connectionCount = 0;
+
+        // init connecting
+        connect();
+
+        function connect() {
+          // check System and init session
+          if (OT.checkSystemRequirements() == 1) {
+            session = OT.initSession(apiKey, sessionId);
+
+            session.on({
+              connectionCreated: function(event) {
+                connectionCount++;
+                console.log(connectionCount + ' connections.');
+              },
+              connectionDestroyed: function(event) {
+                connectionCount--;
+                console.log(connectionCount + ' connections');
+              },
+              streamCreated: function(event) {
+                var subscriberOptions = { insertMode: 'append' };
+                subscriber = session.subscribe(event.stream, 'subscribersDiv', subscriberOptions,
+                  function(error) {
+                    if (error) {
+                      console.log(error);
+                    }
+                });
+              },
+              streamDestroyed: function(event) {
+                console.log("Stream stopped. Reason: " + event.reason);
+              },
+              sessionDisconnected: function(event) {
+                connectionCount--;
+                console.log(connectionCount + ' connections');
+                console.log('Disconnected from the session.');
+              }
+            });
+
+            // Receive a message and append it to the history
+            var msgContainer = document.querySelector('#chat-content');
+            var cookieContainer = new Array();
+            session.on('signal:msg', function(event) {
+              var msgDiv = document.createElement('div');
+              msgDiv.className = 'message';
+              var imgDiv = document.createElement('div');
+              imgDiv.className = 'user-img';
+              var content = document.createElement('div');
+              content.className = 'content';
+              var h4 = document.createElement('h4');
+              var span = document.createElement('span');
+              var time = new Date();
+              var msg = document.createElement('p');
+              var img = document.createElement('img');
+              img.className = 'avatar-circular-chat';
+
+              span.innerHTML = moment(time).format('HH:mm');
+              msg.innerHTML = event.data;
+              msg.className = event.from.connectionId === session.connection.connectionId ? 'mine' : 'theirs';
+              if (msg.className == 'mine') {
+                img.src = "#{current_user.avatar.url(:thumb)}";
+                h4.innerHTML = "#{current_user.first_name}";
+              } else {
+                img.src = "#{@class_room.sender.id == current_user.id ? @class_room.recipient.avatar.url(:thumb) : @class_room.sender.avatar.url(:thumb)}";
+                h4.innerHTML = "#{@class_room.sender.id == current_user.id ? @class_room.recipient.first_name : @class_room.sender.first_name}";
+              }
+              h4.appendChild(span);
+              imgDiv.appendChild(img);
+              content.appendChild(h4);
+              content.appendChild(msg);
+
+              msgDiv.appendChild(imgDiv);
+              msgDiv.appendChild(content);
+              msgContainer.appendChild(msgDiv);
+
+              var now = new Date();
+              var time = now.getTime();
+              time += 3600 * 1000;
+              now.setTime(time);
+
+              cookieContainer.push({
+                name: h4.innerHTML,
+                body: msg.innerHTML,
+                img: img.src
+              });
+              var message = JSON.stringify(cookieContainer);
+
+              document.cookie = "message=" + message + "; expires=" + now.toUTCString() + "; path=/";
+
+              chatBox.notify();
+
+              var height = scroll[0].scrollHeight;
+              $("#chat-content").scrollTop(height);
+            });
+
+            // Text chat
+            var form = document.querySelector('form');
+            var msgTxt = document.querySelector('#msgTxt');
+
+            // Send a signal once the user enters data in the form
+            form.addEventListener('keydown', function(event) {
+              //event.preventDefault();
+
+              if (event.keyCode == 13 && event.shiftKey == 0) {
+                var message = msgTxt.value;
+                message = $.trim(msgTxt.value);
+
+                if (message != '') {
+                  session.signal({
+                      type: 'msg',
+                      data: msgTxt.value
+                    }, function(error) {
+                      if (!error) {
+                        msgTxt.value = '';
+                      }
+                    }
+                  );
+                }
+              }
+            });
+
+            session.connect(token, function(error) {
+              if (error) {
+                if (error === 1006) {
+                  console.log(error.message);
+                  console.log('Failed to connect. Please check your connection and try connecting again.');
+                }
+                else {
+                  console.log(error.message);
+                  console.log('An unknown error occurred connecting. Please try again later.');
+                }
+              }
+              else {
+                var publisherOptions = {
+                  width:  576,
+                  height: 426
+                };
+                publisher = OT.initPublisher('myPublisherDiv', publisherOptions, function(error) {
+                  if (error) {
+                    console.log(error);
+                  }
+                });
+                // publish stream
+                session.publish(publisher);
+
+                // publisher
+                publisher.on({
+                  accessDenied: function() {
+                    console.log('Please allow access to the Camera and Microphone and try publishing again.');
+                  },
+                  accessDialogOpened: function(event) {
+                    pleaseAllowCamera.style.display = 'block';
+                  },
+                  accessDialogClosed: function(event) {
+                    pleaseAllowCamera.style.display = 'none';
+                  },
+                  streamDestroyed: function(event) {
+                    if (event.reason === 'networkDisconnected') {
+                      console.log('Your publisher lost its connection. Please check your internet connection and try publishing again.');
+                    }
+                    else {
+                      tab.hide();
+                      console.log("The publisher stopped streaming.");
+                    }
+                  }
+                });
+
+                //for toggle chat link
+                var tab = $('.chat-toggle');
+                tab.show();
+
+                //for video toggle
+                var toggle = true;
+                $('#video').on('click', function(){
+                  if (toggle) {
+                    publisher.publishVideo(false);
+                    $(this).find('img').css('opacity', 0.4);
+                    $("#myPublisherDiv").css('height', '346px');
+                    $("#publisher-container").css('background-color', 'black');
+                    toggle = false;
+                  }
+                  else {
+                    publisher.publishVideo(true);
+                    $(this).find('img').css('opacity', 1.0);
+                    $("#myPublisherDiv").css('height', '426px');
+                    $("#publisher-container").css('background-color', '#F6F6F6');
+                    toggle = true;
+                  }
+                });
+
+                //for audio turns
+                var aud = true;
+                $('#audio').on('click', function(){
+                  if (aud) {
+                    publisher.publishAudio(false);
+                    $(this).find('img').css('opacity', 0.4);
+                    aud = false;
+                  }
+                  else {
+                    publisher.publishAudio(true);
+                    $(this).find('img').css('opacity', 1.0);
+                    aud = true;
+                  }
+                });
+
+                //fullScreen site mode
+                var publisherContainer = document.getElementById("publisher-container");
+                var publisherDiv = document.getElementById("myPublisherDiv");
+                var chat = $('#txtChat');
+                var chatOpen = $('.chat-open');
+                var x = false;
+
+                $('.chat-toggle').on('click', function(){
+                  if (!x){
+                    chat.hide();
+                    chatOpen.css({
+                      "width": "100%",
+                      "height": "100%"
+                    });
+                    publisherContainer.style.width = "974px";
+                    publisherContainer.style.height = "720px";
+                    publisherDiv.style.width = "974px";
+                    publisherDiv.style.height = "720px";
+                    x = true;
+                  }
+                  else {
+                    chat.show();
+                    chatOpen.removeAttr('style');
+                    publisherContainer.style.width = "576px";
+                    publisherContainer.style.height = "426px";
+                    publisherDiv.style.width = "576px";
+                    publisherDiv.style.height = "426px";
+                    x = false;
+                  }
+                });
+
+                // session disconnect
+                var opened = true;
+                $('#disconnect').on('click', function() {
+                  if (opened) {
+                    disconnect();
+                    opened = false;
+
+                    chat.show();
+                    chatOpen.removeAttr('style');
+                    publisherContainer.style.width = "576px";
+                    publisherContainer.style.height = "426px";
+                    x = false;
+                    console.log("Session disconnected");
+                  }
+                  else {
+                    connect();
+                    $("#video").show();
+                    $("#audio").show();
+                  }
+                });
+              }
+            });
+          }
+          else {
+            console.log("Client does not support WebRTC");
+          }
+        }
+
+        function disconnect() {
+          session.disconnect();
+          $("#publisher-container").append("<div id='myPublisherDiv'></div>");
+          $("#video").hide();
+          $("#audio").hide();
+        }
+      }

@@ -1,0 +1,46 @@
+section.intro-page
+  .container
+    .ct-intro-page
+      / a.back-to href="#"  Back to Instrument List
+      .teacher-intro
+        = image_tag @user.avatar.url(:thumb), class: "avatar-circular"
+        h1
+          = @user.full_name
+        ul.breadcrums
+          li
+            a href="#" 
+              = @user.location
+              
+      .clearfix
+main
+  .container
+    .list-page
+      .nav-page
+        ul.tab-page role="tablist"
+          li.active role="presentation"
+            a.active data-toggle="tab" href="#activity" role="tab" ACTIVITY
+          li role="presentation"
+            a data-toggle="tab" href="#about" role="tab" ABOUT
+          li role="presentation"
+            a data-toggle="tab" href="#lessons" role="tab" LESSONS
+          - if user_signed_in? && current_user == @user
+            li role="presentation"
+              a data-toggle="tab" href="#credits" role="tab" CREDITS
+            li role="presentation" class="pull-right"
+              a data-toggle="tab" href="#edit_profile" role="tab" EDIT PROFILE
+            li role="presentation" class="pull-right"
+              = link_to "Class Setup", demo_url, "data-no-turbolink" => true
+        .clearfix
+    .tab-content
+      #activity.profile.tab-pane.active role="tabpanel"
+        = render 'profile/student/activity'
+      #about.profile.tab-pane role="tabpanel"
+        = render 'profile/about'
+      #lessons.profile.tab-pane role="tabpanel"
+        = render 'profile/student/lessons'
+      - if user_signed_in? && current_user == @user
+        #credits.profile.tab-pane role="tabpanel"
+          = render 'profile/student/credits'
+      - if user_signed_in? && current_user == @user
+        #edit_profile.profile.tab-pane role="tabpanel"
+          = render 'profile/edit'

@@ -1,0 +1,26 @@
+h2.prof-block-title Upcoming Classes
+- if @class_chats.any?
+  - @class_chats.sort_by{|c| c.availability.start_time}.each_with_index do |chat, index|
+    hr
+    p
+      | When:&nbsp;&nbsp;
+      strong
+        = "#{chat.availability.start_time.strftime('%B %e, %Y: %H:%M')} - #{chat.availability.end_time.strftime('%H:%M')}" 
+    p
+      | Lesson:&nbsp;&nbsp;
+      strong
+        = "#{chat.lesson.try(:name)} (#{chat.lesson.try(:instrument).try(:titleize)} - #{chat.lesson.try(:level).try(:titleize)})"
+    p
+      | Student:&nbsp;&nbsp;
+      strong
+        = chat.recipient.full_name
+    p
+      | Room:&nbsp;&nbsp;
+      strong
+        - if (chat.availability.start_time <= Time.now + 5.minutes)
+          = link_to "Enter", class_chat_path(chat)
+        - else
+          = "Link will be available 5 minutes prior to start"
+    hr
+- else
+  h4 There are no upcoming classes for today

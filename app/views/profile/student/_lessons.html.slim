@@ -1,0 +1,28 @@
+.row
+  .col-lg-7.col-md-7.col-sm-7
+    - if @user == current_user
+      - @class_chats.any?
+        h4 You have the following classes scheduled
+        - @class_chats.each_with_index do |chat, index|
+          hr
+          p
+            | When:&nbsp;&nbsp;
+            strong
+              = "#{chat.availability.start_time.strftime('%B %e, %Y: %H.%M')} - #{chat.availability.end_time.strftime('%H.%M')}" 
+          p
+            | Lesson:&nbsp;&nbsp;
+            strong
+              = "#{chat.lesson.name} (#{chat.lesson.instrument.try(:titleize)} - #{chat.lesson.level.try(:titleize)})"
+          p
+            | Teacher:&nbsp;&nbsp;
+            strong
+              = chat.sender.full_name
+          p
+            | Room:&nbsp;&nbsp;
+            strong
+              - if (chat.availability.start_time <= Time.now + 5.minutes)
+                = link_to "Enter", class_chat_path(chat)
+              - else
+                = "Link will be available 5 minutes prior to start"
+          hr
+          

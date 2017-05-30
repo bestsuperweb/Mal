@@ -1,0 +1,23 @@
+- @completed.in_groups_of(3,false).each do |group|
+  .row
+    - group.each do |clas|
+      .col-md-4
+        hr
+        p
+          |Date:&nbsp;&nbsp;
+          strong
+            = "#{clas.availability.start_time.strftime('%B %e, %Y: %H.%M')} - #{clas.availability.end_time.strftime('%H.%M')}"
+        p
+          |Lesson:&nbsp;&nbsp;
+          strong
+            = "#{clas.lesson.try(:name)} (#{clas.lesson.try(:instrument).try(:titleize)} - #{clas.lesson.try(:level).try(:titleize)})"
+        p
+          |Student:&nbsp;&nbsp;
+          strong
+            = clas.recipient.full_name
+        - if clas.teacher_received_credit?
+          span.green Credit earned!
+        - else
+          = form_tag transfer_credit_path, method: :patch, remote: true do
+            = hidden_field_tag :class, clas.id
+            button.btn.btn-info method="submit" Get my Credit

@@ -1,0 +1,69 @@
+doctype html
+html lang="en" 
+  head
+    meta charset="utf-8"
+    meta content="IE=edge" http-equiv="X-UA-Compatible"
+    meta content="width=device-width, initial-scale=1" name="viewport"
+    title Music Academy Live
+    = stylesheet_link_tag     "application", media: 'all'
+    = csrf_meta_tags
+  body#page-top.listing-page
+    nav#mainNav.navbar.navbar-default.navbar-fixed-top.primary-bg
+      .container-fluid
+        /! Brand and toggle get grouped for better mobile display
+        .navbar-header
+          button.navbar-toggle.collapsed data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button" 
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          a.navbar-brand.page-scroll.logo href="/profile" 
+        /! Collect the nav links, forms, and other content for toggling
+        #bs-example-navbar-collapse-1.collapse.navbar-collapse
+          ul.nav.navbar-nav.navbar-right
+            li
+              a href="#home"  Home
+            li
+              a href="#about"  About
+            li
+              = link_to "Teachers", teachers_path
+            li
+              a href="#contact"  Contact
+            - if user_signed_in?
+              li
+                .ui.inline.dropdown.profile-dd
+                  .text
+                    = image_tag current_user.profile_picture, class: "ui avatar image"
+                  i.dropdown.icon
+                  .menu
+                    .item
+                      a href="/profile"  Profile
+                    .item
+                      = link_to "Logout", destroy_user_session_path, method: :delete
+    = yield
+    = javascript_include_tag  "application"
+    /![if lt IE 9]
+    = javascript_include_tag 'html5shiv'
+    javascript:
+      $(document).ready(function () {
+        $('.ui.dropdown').dropdown();
+        $('.ui.menu .ui.dropdown').dropdown({
+          on: 'hover'
+        });
+
+        $('[data-toggle="popover"]').popover();
+
+        //for register/student modal window
+        $('.gotoStep2').on('click', function(){
+          var personal = $("[aria-controls='profInfo']");
+          var profile = $("[aria-controls='picSet']")
+
+          personal.parent().removeClass('active');
+          profile.parent().addClass('active');
+
+          $('#picSet.tab-pane').addClass('active');
+          $('#profInfo.tab-pane').removeClass('active');
+        });
+
+        $('.calendar-container').fullCalendar();
+      });

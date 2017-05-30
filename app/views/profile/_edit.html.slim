@@ -1,0 +1,99 @@
+= nested_form_for @user, url: update_profile_path, html: {id: "register-form"} do |f|
+  .part-1
+    h3 PERSONAL INFORMATION
+    .col-md-6
+      .form-group
+        = f.label "First Name"
+        = f.text_field :first_name, class: "form-control"
+    .col-md-6
+      .form-group
+        = f.label "Last Name"
+        = f.text_field :last_name, class: "form-control"
+    .col-md-6
+      .form-group
+        = f.label "Address"
+        = f.text_field :address, class: "form-control register-geocomplete", data: {geo: "street_address"}
+    .col-md-6
+      .form-group
+        = f.label "City"
+        = f.text_field :city, class: "form-control", data: {geo: "locality"}
+    .col-md-6
+      .form-group
+        = f.label "Province"
+        = f.text_field :region, class: "form-control", data: {geo: "administrative_area_level_1"}
+    .col-md-6
+      .form-group
+        = f.label "Region"
+        = f.text_field :region, class: "form-control"
+    .col-md-6
+      .form-group
+        = f.label "Country"
+        = f.text_field :country, class: "form-control", data: {geo: "country"}
+    .col-md-6
+      .form-group
+        = f.label "Postal Code"
+        = f.text_field :zipcode, class: "form-control", data: {geo: "postal_code"}
+    .col-md-6
+      .form-group
+        = f.label "Phone"
+        = f.text_field :phone, class: "form-control"
+    .col-md-6
+      br
+      .checkbox
+        label
+          = f.check_box :notifications
+          | Email notifications
+    .clearfix
+    br
+    .col-md-6
+      .form-group
+        = f.label "Current profile picture"
+        = image_tag @user.avatar.url(:thumb), class: "current-pro-pic"
+    .col-md-6
+      .form-group
+        = f.label "Change picture"
+        = f.file_field :avatar
+  .part-2
+    h3 ABOUT YOURSELF
+    .form-group
+      = f.text_area :description, class: "text-area form-control", rows: 5
+    .row
+      .col-md-6
+        | INSTRUMENTS
+        .form-group
+          - Instrument.all.each do |i|
+            = check_box_tag 'user[instrument_ids][]', i.id, nil, {checked: @user.instruments.include?(i) ? true : false}
+            | &nbsp;&nbsp;&nbsp;
+            = i.name
+            br
+      .col-md-6
+        | GENRES
+        .form-group
+          - Genre.all.each do |i|
+            = check_box_tag 'user[genre_ids][]', i.id, nil, {checked: @user.genres.include?(i) ? true : false}
+            | &nbsp;&nbsp;&nbsp;
+            = i.name
+            br
+      .col-md-6
+        | LEVELS
+        .form-group
+          - Level.all.each do |i|
+            = check_box_tag 'user[level_ids][]', i.id, nil, {checked: @user.levels.include?(i) ? true : false}
+            | &nbsp;&nbsp;&nbsp;
+            = i.name
+            br
+    .row
+      .col-md-12
+        br
+        .form-group
+          = f.submit "Save", class: "btn btn-primary btn-block blue-btn"
+  .part-3
+    h3 Add External Links
+    .row#links
+      = f.fields_for :external_links do |link_form|
+        .form-group
+          = link_form.text_field :url, class: "form-control"
+          = link_form.link_to_remove "Remove link", class: "remove_link"
+          .clearfix
+    p
+      = f.link_to_add "Add Link", :external_links, class: "btn btn-primary", data: { target: "#links" }

@@ -1,0 +1,17 @@
+- if @user.reviews.present?
+  h3 Latest Reviews
+  - @user.reviews.reverse_each do |review|
+    b
+      - review.rate.to_i.times
+        i.fa.fa-star
+    p
+      = review.body
+    h4 style="margin-top:10px;"
+      = image_tag review.author.avatar, class: "img-circle", width:"30px"
+      | &nbsp;&nbsp;
+      |By 
+      = link_to "#{review.author.full_name}", profile_path(review.author_id)
+- else
+  .well
+    center
+      = "#{@user.full_name} does not have any reviews yet"

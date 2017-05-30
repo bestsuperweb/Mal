@@ -1,0 +1,38 @@
+.nav-page
+  ul.tab-page
+    li
+      | SORT BY:
+    li
+      = sort_link(@q, :current_rating, {}, remote: true)
+    li
+      = sort_link(@q, :lesson_count, {}, remote: true)
+  .clearfix
+.row
+  - @teachers.each do |t|
+    .col-md-3.col-sm-3.col-xs-6
+      .list-ct
+        .img-list
+          = image_tag t.avatar, class: "img-circle"
+          h4 #{t.display_name}
+          span #{t.lessons.collect{|l| l.instrument.try(:titleize)}.uniq.join(", ")}
+        .detail-list
+          ul
+            li
+              b
+                = t.lesson_count
+              | Classes
+            li
+              b
+                = t.current_rating
+              | Rating
+          p #{t.description}
+          = link_to "View Profile", profile_path(t)
+          
+  - if @teachers.empty?
+    .col-md-12
+      center
+        h4
+          | Currently there are no teachers matching your filters
+        br
+        br
+        br

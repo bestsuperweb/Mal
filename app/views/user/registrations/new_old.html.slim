@@ -1,0 +1,36 @@
+section#register.register
+  .register-content.container
+    .col-md-4.col-sm-4.col-md-offset-4.col-sm-offset-4
+      .register-block
+        .register-header.ta-center Register
+        h1 
+          = @user_type
+        .register-body
+          section#subHeader.sub-header-prof
+            .container-fluid
+              = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
+                = devise_error_messages!
+                div
+                  .form-group
+                    label.form-label I'm a
+                    .radioregi
+                      = f.radio_button :user_type, "Student"
+                      = f.label :user_type, "Student", value: "Student", class: "rb-option1"
+                    .radioregi
+                      = f.radio_button :user_type, "Teacher/Instructor" 
+                      = f.label :user_type, "Teacher/Instructor", value: "Teacher/Instructor"
+                  .form-group
+                    = f.label :email, "Email Address", class: "form-label"
+                    = f.email_field :email, { class: "input-text", placeholder: "Email" }
+                  .form-group
+                    = f.label :password, "Password", class: "form-label"
+                    = f.password_field :password, { class: "input-text", placeholder: "*******" }
+                  .form-group
+                    = f.label :notifications, value: true ,class: "cb-label font-black"
+                      = f.check_box :notifications, { class: "icheck" }, true, nil
+                      | I confirm to receive Email notifications
+                .modal-footer
+                  div
+                    button.btn.btn-default aria-label="Close" data-dismiss="modal" type="button" 
+                      | Cancel
+                    button.btn.btn-gray.blue-cta-btn type="submit"  Register

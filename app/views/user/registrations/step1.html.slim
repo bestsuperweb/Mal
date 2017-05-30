@@ -1,0 +1,67 @@
+section.intro-page
+  .container
+    .ct-intro-page
+      h5 REGISTRATION
+      h3 Create your Music Academy Live account. It's free to sign up!
+main
+  .container
+    section.register1
+      = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
+        = devise_error_messages!
+        = f.hidden_field :user_type, value: @user_type
+        .containt-intro
+          .row
+            .col-md-6.col-sm-6.col-xs-12
+              .profile-info
+                .profile-index
+                  h3 Profile Information
+                p Sed dapibus lacus vel velit. Integer quis neque.
+                .info-item#register-form
+                  .line-btn
+                    = f.text_field :first_name, class: "small phone", placeholder: "First Name", data: { validation: "required", "validation-error-msg": "First Name can't be blank" }
+                    = f.text_field :last_name, class: "small txtLeft phone", placeholder: "Last Name", data: { validation: "required", "validation-error-msg": "Last Name can't be blank" }
+                  .line-btn
+                    = f.text_field :address, placeholder: "Address", class: "phone register-geocomplete", data: { validation: "required", "validation-error-msg": "Address can't be blank", geo: "street_address" }
+                  .line-btn
+                    = f.text_field :city, class: "small phone", placeholder: "City", data: {geo: "locality"}
+                    = f.text_field :region, class: "small txtLeft phone", placeholder: "Province", data: {geo: "administrative_area_level_1"}
+                  .line-btn
+                    = f.text_field :country, class: "small phone", placeholder: "Country", data: {geo: "country"}
+                    = f.text_field :zipcode, class: "small txtLeft phone", placeholder: "Postal Code", data: {geo: "postal_code"}
+                  .line-btn
+                    = f.text_field :phone, class: "phone", placeholder: "Phone Number"
+                  .line-btn
+                    = f.email_field :email, placeholder: "Email Address", class: "phone", data: { validation: "required", "validation-error-msg": "Email can't be blank" }
+                  .line-btn
+                    = f.password_field :password, placeholder: "Password", class: "phone", data: { validation: "required", "validation-error-msg": "Password can't be blank" }
+                  .personal
+                    p Personal Description
+                    = f.text_area :description, class: "text-area", rows: 5
+                  .check-person
+                    = f.check_box :notifications, { class: "icheck" }, true, nil
+                    p I confirm to receive Email notifications
+            .col-md-6.col-sm-6.col-xs-12
+              .step-index
+                - if @user.teacher?
+                  ul
+                    li.active
+                      span
+                      .tooltip-step step 1
+                    li
+                      span
+                - else
+                  ul
+                    li.active
+                      span
+                      .tooltip-step step 1
+                    li
+                      span
+                    li
+                      span
+              .step-info
+                = image_tag "regis-2.png"
+                p Aliquam nec nulla ac nisi dignissim dictum. Phasellus quis tortor. In ullamcorper justo.
+                p.last-line Sed dapibus lacus vel velit. Integer quis neque.
+        .btn-register1
+          input.cancel-btn type="submit" value="CANCEL" name="cancel"
+          input.continute-btn type="submit" value="CONTINUE" name="continue"

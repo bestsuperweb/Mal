@@ -1,0 +1,320 @@
+.row
+  .col-lg-5.col-md-5.col-sm-5
+    - if @user == current_user
+      #upcoming
+        = render 'profile/teacher/upcoming_requests'
+      br
+      #pending
+        = render 'profile/teacher/pending_requests'
+    br
+    h2.prof-block-title Today's Availability
+    .profile-block.date-block
+      - if @availabilities.any?
+        - @availabilities.each do |ava|
+          .time-table
+            .row.slot-row
+              .col-lg-6.pd-0.ta-center
+                h4 #{ava.start_time.strftime("%H:%M")} - #{ava.end_time.strftime("%H:%M")}
+              .col-sm-6
+                - if @user == current_user
+                  | &nbsp;
+                - else
+                  - unless ClassRoom.where(availability_id: ava.id, student_id: current_user.id).present?
+                    input.btn.btn-info.request-btn.btn-sm.pull-right type="button" value=("Request a Class") name="#{ava.id}"
+                  - else
+                    span.pull-right You've requested this class
+                  div id="requestTodayModal_#{ava.id}" class="modal fade"
+                    = form_for ClassRoom.new, url: request_class_path, html: { id: "request_today_form", class: "request_today_form" } do |f|
+                      .modal-dialog
+                        .modal-content
+                          .modal-header
+                            button.close data-dismiss="modal"
+                              span aria-hidden="true" x
+                              span.sr-only close
+                            h4#modalTitle.modal-title Request a class with #{@user.full_name}:
+                          #modalBody.modal-body
+                            center
+                              h4 
+                                = ava.start_time.strftime("%A, %b %d")
+                                br
+                                = "#{ava.start_time.strftime("%H:%M")} - #{ava.end_time.strftime("%H:%M")}"
+                              hr
+                              .form-group
+                                .row
+                                  .col-md-6.col-md-offset-3
+                                    = f.label "Pick available lesson"
+                                    = f.select :lesson_id, @user.lessons.map { |l| [ "#{l.name} (#{l.instrument.try(:titleize)} - #{l.level.try(:titleize)})", "#{l.id}" ]}, {}, class: "form-control"
+                                = f.hidden_field :availability_id, value: ava.id
+                                = f.hidden_field :teacher_id, value: @user.id
+                                = f.hidden_field :student_id, value: current_user.id
+                          .modal-footer
+                            button.btn.btn-default data-dismiss="modal" Close
+                            button.btn.btn-info Request
+            hr
+      - else
+        h4 No available slots for today
+  .col-lg-7.col-md-7.col-sm-7
+    - if @user == current_user
+      #teacher-calendar
+      #eventContent.modal.fade
+        = form_for Availability.new, url: add_available_path, html: { id: "ava-form" } do |f|
+          .modal-dialog
+            .modal-content
+              .modal-header
+                button.close data-dismiss="modal"
+                  span aria-hidden="true" x
+                  span.sr-only close
+                h4#modalTitle.modal-title
+              #modalBody.modal-body
+                span from 
+                = f.text_field :start_time, readonly: true
+                span  to 
+                = f.text_field :end_time, readonly: true
+              .modal-footer
+                button.btn.btn-default data-dismiss="modal" Close
+                button.btn.btn-success.ava-submit Save
+      #removeAvailability.modal.fade
+        = form_tag remove_available_path, id: "remove-ava-form" do |f|
+          .modal-dialog
+            .modal-content
+              .modal-header
+                button.close data-dismiss="modal"
+                  span aria-hidden="true" x
+                  span.sr-only close
+                h4#removeModalTitle.modal-title
+              #removeModalBody.modal-body
+                = hidden_field_tag "id", "", id: "remove_availability_id"
+                span 
+              .modal-footer
+                button.btn.btn-default data-dismiss="modal" Close
+                button.btn.btn-success.ava-submit Remove Availability
+    - else
+      #events-calendar
+      #requestEventModal.modal.fade
+        = form_for ClassRoom.new, url: request_class_path, html: { id: "request-form" } do |f|
+          .modal-dialog
+            .modal-content
+              .modal-header
+                button.close data-dismiss="modal"
+                  span aria-hidden="true" x
+                  span.sr-only close
+                h4#modalRequestTitle.modal-title Request a class with #{@user.full_name}:
+              #modalRequestBody.modal-body
+                center
+                  h4
+                  hr
+                  .form-group
+                    .row
+                      .col-md-6.col-md-offset-3
+                        = f.label "Pick available lesson"
+                        = f.select :lesson_id, @user.lessons.map { |l| [ "#{l.name} (#{l.instrument.try(:titleize)} - #{l.level.try(:titleize)})", "#{l.id}" ]}, {}, class: "form-control"
+                    = f.hidden_field :availability_id
+                    = f.hidden_field :teacher_id, value: @user.id
+                    = f.hidden_field :student_id, value: current_user.id
+              .modal-footer
+                button.btn.btn-default data-dismiss="modal" Close
+                button.btn.btn-info Request
+    .row
+      br
+      - class_to_use = (current_user != @user) ? "col-md-6" : "col-md-4"
+      div class="#{class_to_use}"
+        .legend
+          span.event-yellow
+          | Past Events
+      div class="#{class_to_use}"
+        .legend
+          span.event-red
+          | Booked
+      div class="#{class_to_use}"
+        .legend
+          span.event-green
+          | Available
+      - unless current_user == @user
+        div class="#{class_to_use}"
+          .legend
+            span.event-blue
+            | Your Pending Request
+javascript:
+  window.onload = function() {
+  
+    //show calendar in tab
+    $("a[data-toggle=\"tab\"]").on('shown.bs.tab', function(e) {
+      var user = "#{@user.id}";
+      var currentUser = "#{current_user.id}";
+      if (user == currentUser) {
+        $('#teacher-calendar').fullCalendar('render');
+      }
+      else {
+        $('#events-calendar').fullCalendar('render');
+      }
+    });
+    //$(".tab-page a:last").tab('show');
+    $('.datetimepicker').datetimepicker();
+
+    //submit form from calendar for adding events
+    $('#ava-form').submit(function() {
+      $.ajax({
+        type: 'POST',
+        url: $(this).attr('action'),
+        data: $(this).serialize(),
+        dataType: "JSON"
+      }).success(function(json) {
+        $('#eventContent').modal('hide');
+        $('#ava-form').trigger('reset');
+        console.log('success', json);
+        $('#teacher-calendar').fullCalendar('refetchEvents');
+        alertify.success("Added successfully!")
+      });
+      return false;
+    });
+
+    // submit form for request class from calendar
+    $('#request-form').submit(function() {
+      $.ajax({
+        type: 'POST',
+        url: $(this).attr('action'),
+        data: $(this).serialize(),
+        dataType: "JSON"
+      }).success(function(json) {
+        $('#requestEventModal').modal('hide');
+        $('#request-form').trigger('reset');
+        console.log('success', json);
+        $('#events-calendar').fullCalendar('refetchEvents');
+        alertify.success("Requested successfully!");
+      }).error(function(json) {
+        $('#requestEventModal').modal('hide');
+        $('#request-form').trigger('reset');
+        console.log('error', json);
+        alertify.error(json.responseText);
+      });
+      return false;
+    });
+
+
+
+    //set calendar for teacher
+    $('#teacher-calendar').fullCalendar({
+      theme: true,
+      defaultView: 'agendaWeek',
+      fixedWeekCount: false,
+      scrollTime: '09:00:00',
+      header: {
+        left: 'title',
+        center: 'prev, today, next',
+        right: 'month,agendaWeek,agendaDay'
+      },
+      eventSources: [
+        {
+          url: '/events.json',
+          type: 'GET',
+          data: { id: "#{@user.id}" },
+          textColor: 'black'
+        }
+      ],
+      dayClick: function(date, jsEvent, view) {
+        var day = new Date();
+
+        if ((view.name == 'agendaWeek') || (view.name == 'agendaDay')) {
+          if (date >= day) {
+            $('#modalTitle').html('Add available time for: ' + date.format('YYYY/MM/DD HH:mm'));
+            $("input[name='availability[start_time]']").val(moment(date).format('YYYY/MM/DD HH:mm'));
+            $("input[name='availability[end_time]']").val(moment(date).add('hours', 1).format('YYYY/MM/DD HH:mm'));
+            $('#eventContent').modal();
+          }
+        }
+      },
+      eventClick: function(event) {
+        if (event.status == "available") {
+          $('#removeModalTitle').html('Availability: ' + moment(event.start).format('dddd, MMM DD') + ' (' + moment(event.start).format('HH:mm') + ' - ' + moment(event.end).format('HH:mm') + ') ');
+          $('#removeModalBody span').html('Would you like to remove this availability from your schedule?')
+          $("#remove_availability_id").val(event.id);
+          $('#removeAvailability').modal();
+        }
+      }
+    });
+
+    // set calendar view for student
+    $("#events-calendar").fullCalendar({
+      theme: true,
+      defaultView: 'agendaWeek',
+      fixedWeekCount: false,
+      scrollTime: '09:00:00',
+      header: {
+        left: 'title',
+        center: 'prev, today, next',
+        right: 'month,agendaWeek,agendaDay'
+      },
+      eventSources: [
+        {
+          url: '/events.json',
+          type: 'POST',
+          data: { id: "#{@user.id}" },
+          textColor: 'black'
+        }
+      ],
+      eventClick: function(event) {
+        if (event.status == "available") {
+          $('#modalRequestBody h4').html(moment(event.start).format('dddd, MMM DD') + '<br>' + moment(event.start).format('HH:mm') + ' - ' + moment(event.end).format('HH:mm'));
+          $("input[name='class_room[availability_id]']").val(event.id);
+          $('#requestEventModal').modal();
+        }
+      }
+    });
+
+    $('.request-btn').on('click', function() {
+
+      var idForModal = $(this).attr('name');
+      var modalWin = $('#requestTodayModal_' + idForModal);
+
+      modalWin.modal();
+
+    });
+
+    $('.request_today_form').on('submit', function(event) {
+      event.preventDefault();
+
+      var $form = $(this);
+
+      $.ajax({
+        type: 'POST',
+        url: $form.attr('action'),
+        data: $form.serialize(),
+        dataType: "JSON"
+      }).success(function(json) {
+        $form.closest('.modal').modal('hide');
+        $form.trigger('reset');
+        console.log(json);
+        $('#events-calendar').fullCalendar('refetchEvents');
+        alertify.success("Requested successfully!");
+      }).error(function(json) {
+        $('#requestEventModal').modal('hide');
+        $('#request-form').trigger('reset');
+        console.log('error', json);
+        alertify.error(json.responseText);
+      });
+    });
+    
+    $('#remove-ava-form').on('submit', function(event) {
+      event.preventDefault();
+
+      var $form = $(this);
+
+      $.ajax({
+        type: 'POST',
+        url: $form.attr('action'),
+        data: $form.serialize(),
+        dataType: "JSON"
+      }).success(function(json) {
+        $form.closest('.modal').modal('hide');
+        $form.trigger('reset');
+        console.log(json);
+        $('#teacher-calendar').fullCalendar('refetchEvents');
+        alertify.success("Availability has been removed!");
+      }).error(function(json) {
+        $('#requestEventModal').modal('hide');
+        $('#request-form').trigger('reset');
+        console.log('error', json);
+        alertify.error('Something went wrong. Please try again later.');
+      });
+    });
+  };

@@ -1,0 +1,22 @@
+.part-1 style="width: 67%;"
+  .col-md-12
+    - if @user == current_user
+      - if @credits.any?
+        h4 align="center" Currently You have #{@credits.count} purchased credits.
+        h5 align="center" #{@user.available_credits_count} can be used to book classes.
+        hr
+      - else
+        h4 You don't have any credits at the moment
+.part-2.bg-none style="float: right;"
+  h3 Buy More Credits
+  = form_tag express_path, method: :post do
+    .row
+      .col-md-12
+        .form-group
+          label Quantity
+          = number_field_tag :quantity, 1, class: "form-control"
+        .form-group
+          label Price: #{number_to_currency(site_setting("credit_price"))}
+        .form-group
+          = image_submit_tag "https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif"
+  .clearfix

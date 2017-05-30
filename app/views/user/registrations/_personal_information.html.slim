@@ -1,0 +1,60 @@
+div
+  .tab-c-title-wrap.mg-bottom-20
+    p.tab-c-title PERSONAL INFORMATION
+  .col-lg-6.col-md-6.col-sm-6.pd-0.pd-right-15.prof-info-left
+    .col-lg-6.col-md-6.col-sm-6.pd-left-0.pd-right-5.m-pd-0
+      .form-group
+        = f.text_field(:first_name, class: "input-text", placeholder: "First Name")
+    .col-lg-6.col-md-6.col-sm-6.pd-right-0.pd-left-5.m-pd-0
+      .form-group
+        = f.text_field(:last_name, class: "input-text", placeholder: "Last Name")
+    .col-lg-12.col-md-12.col-sm-12.pd-0
+      .form-group
+        = f.text_field(:address, class: "input-text", placeholder: "Address")
+    .col-lg-6.col-md-6.col-sm-6.pd-left-0.pd-right-5.m-pd-0
+      .form-group
+        = f.text_field(:city, class: "input-text", placeholder: "city")
+    .col-lg-6.col-md-6.col-sm-6.pd-right-0.pd-left-5.m-pd-0
+      .form-group
+        .ui.selection.dropdown.dropdown-tab
+          = f.hidden_field :city
+          i.dropdown.icon
+          .default.text Select City
+          .menu
+            .item data-value="toronto"  Toronto
+            .item data-value="toronto1"  Toronto1
+    .col-lg-6.col-md-6.col-sm-6.pd-right-5.pd-left-0.m-pd-0
+      .form-group
+        .ui.selection.dropdown.dropdown-tab
+          = f.hidden_field :country
+          i.dropdown.icon
+          .default.text Select Country
+          .menu
+            .item data-value="Canada"  Canada
+            .item data-value="US"  US
+    .col-lg-6.col-md-6.col-sm-6.pd-left-5.pd-right-0.m-pd-0
+      .form-group
+        = f.text_field(:zipcode, class: "input-text", placeholder: "58269")
+    .col-lg-12.col-md-12.col-sm-12.pd-0.m-pd-0
+      .form-group
+        = f.text_field(:email, class: "input-text", value: @user.email)
+    .col-lg-12.col-md-12.col-sm-12.pd-0
+      .form-group
+        = f.text_field(:phone, class: "input-text", placeholder:"Phone No.*")
+  .col-lg-6.col-md-6.col-sm-6.pd-0.pd-left-15.m-pd-0.person-info-right
+    .col-lg-12.col-md-12.col-sm-12.pd-0.m-pd-0
+      .form-group
+        label.preson-desc
+          | Personal Description
+          span.fl-right 120
+        = f.text_area(:description, class: "input-text", placeholder: "Personal Description", rows: "5")
+    .col-lg-12.col-md-12.col-sm-12.pd-0.m-pd-0
+      .form-group
+        label.cb-label
+          = f.check_box(:notifications, class: "icheck", value: @user.notifications)
+          | I confirm to receive Email notifications
+.modal-footer
+  div
+    button.btn.btn-default aria-label="Close" data-dismiss="modal" type="button" 
+      | Cancel
+    button.btn.btn-gray.gotoStep2 type="button"  Next Step

@@ -1,0 +1,8 @@
+.row
+  .col-lg-12
+    h2.prof-block-title Completed Classes
+    - if @completed.any?
+      #completed
+        = render 'profile/teacher/completed'
+    - else
+      h4 None

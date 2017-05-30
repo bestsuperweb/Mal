@@ -1,0 +1,33 @@
+development:
+  adapter: postgresql
+  encoding: unicode
+  reconnect: false
+  database: onlinemusical_dev
+  pool: 5
+  username: root
+  password:
+  host: localhost
+  port: 3306
+  secure_auth: false
+
+test:
+  adapter: postgresql
+  encoding: unicode
+  reconnect: false
+  database: onlinemusical_test
+  pool: 5
+  username: root
+  password:
+  host: localhost
+  port: 3306
+  secure_auth: false
+
+production:
+  adapter: postgresql
+  encoding: unicode
+  reconnect: false
+  database: onlinemusical_production
+  pool: 5
+  username: root
+  password: root
+  host: localhost

@@ -1,0 +1,114 @@
+.frm-search {
+  button {
+    -webkit-appearance: none;
+    -moz-appearance:    none;
+    appearance:         none;
+    background: #00536c;
+    color: #fff;
+    width:100%;
+    height:40px;
+    text-transform: uppercase;
+    border: 0;
+  }
+}
+
+.register1 .containt-intro .profile-info .info-item textarea {
+  border: 1px solid #bbb;
+  width: 100%;
+  padding: 10px;
+  border-radius: 2px;
+}
+
+.blue-btn {
+  background: #36b3db;
+  color: #fff;
+  font-size: 14px;
+  text-transform: uppercase;
+  padding: 10px 0;
+  border-radius: 5px;
+  border: 0;
+}
+
+.list-ct .img-list {
+  width: 100%;
+  position: relative;
+  height:150px;
+  overflow: hidden;
+  background: asset-url("guitar-bg.jpg");
+  background-size: cover;
+}
+
+.list-page .nav-page ul.tab-page li a.asc, .list-page .nav-page ul.tab-page li a.desc {
+  border-color: #36b3db;
+  color: #36b3db;
+  text-decoration: none;
+}
+.negative-bottom-margin {
+  margin-bottom: -100px;
+}
+.about-list {
+  padding-left: 20px !important;
+  list-style: disc !important;
+  li {
+    list-style: disc !important;
+  }
+}
+.text-center {
+  text-align: center !important;
+}
+
+.devise_errors {
+  ul {
+    padding:10px;
+    border: 1px solid red;
+    color: red;
+  }
+}
+
+.skip-bottom-margin {
+  margin-bottom:0 !important;
+}
+
+.rating-input {
+  color: #36b3db;
+  font-size:30px;
+}
+
+.fc-time-grid-event {
+  &:hover {
+    cursor:pointer;
+    opacity: 0.7;
+  }
+}
+#teacher-calendar {
+  .fc-slats {
+    tr {
+      &:hover {
+        background: rgba(54, 179, 219, 0.1);
+        cursor: pointer;
+        & + tr {
+          background: rgba(54, 179, 219, 0.1);
+        }
+      }
+    }
+  }
+}
+
+.legend {
+  width:100%;
+  span {
+    display: inline-block;
+    width:30px;
+    height:15px;
+    margin-right: 10px;
+    vertical-align: middle;
+  }
+  .event-red { background: #c70019; }
+  .event-yellow { background: #D8841B; }
+  .event-green { background: #56BF56; }
+  .event-blue { background: #36B3DB; }
+}
+
+span.green {
+  color: #56BF56;
+}

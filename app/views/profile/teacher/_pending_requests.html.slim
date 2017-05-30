@@ -1,0 +1,33 @@
+h2 Pending requests
+- if @requests.any?
+  - @requests.each do |request|
+    hr
+    p
+      | From:
+      strong
+        = link_to "#{request.recipient.full_name}", profile_path(request.recipient.id)
+    p
+      | Lesson:
+      strong
+        = "#{request.lesson.try(:name)} (#{request.lesson.try(:instrument).try(:titleize)} - #{request.lesson.try(:level).try(:titleize)})"
+    p
+      = "Date: "
+      strong
+        = "#{request.availability.start_time.strftime('%B %e, %Y')}"
+    p
+      = "Time: "
+      strong
+        = "#{request.availability.start_time.strftime('%H:%M')} - #{request.availability.end_time.strftime('%H:%M')}"
+    table
+      tr
+        td
+          = form_tag(check_request_path, method: :post, remote: true) do
+            = hidden_field_tag :id, request.id
+            = hidden_field_tag :reject, 'reject'
+            button.btn.btn-default.reject-button method="delete" Reject
+        td
+          = form_tag(check_request_path, method: :post, remote: true) do
+            = hidden_field_tag :id, request.id
+            button.btn.btn-info.accept-button method="submit" Accept
+- else
+  h4 Currently there are no pending requests

@@ -1,0 +1,27 @@
+- if activities.any?
+  - current_loop_date = ""
+  - activities.reverse_each do |activity|
+    - if (activity.updated_at >= Time.zone.now.beginning_of_day) && (activity.updated_at <= Time.zone.now.end_of_day)
+      - if current_loop_date != "Today"
+        - current_loop_date = "Today"
+        h3
+          = "Today"
+    - else
+      - if current_loop_date != "#{activity.updated_at.strftime('%B %e, %Y')}"
+        - current_loop_date = "#{activity.updated_at.strftime('%B %e, %Y')}"
+        h3
+          = "#{activity.updated_at.strftime('%B %e, %Y')}"
+    ul.list-course
+      li
+        span
+          = activity.updated_at.strftime("%H.%M")
+        p
+          = "#{@user.first_name} had a class with "
+          - if @user.student?
+            = link_to "#{activity.sender.full_name}", profile_path(activity.sender.id)
+          - else
+            = link_to "#{activity.recipient.full_name}", profile_path(activity.recipient.id)
+- else
+  .well
+    center
+      = "#{@user.full_name} didn't have any activity yet"

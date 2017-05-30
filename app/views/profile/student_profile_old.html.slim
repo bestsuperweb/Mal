@@ -1,0 +1,112 @@
+section#subHeader.sub-header-prof
+  .container
+    .profile-header
+      .col-lg-3.col-md-3.col-sm-5.col-md-offset-9.col-sm-offset-7
+        p 
+          = @user.description
+        input.btn.btn-info type="button" value=("Request a Class") /
+section#profile.listing
+  .container
+    .row.profile-head
+      .col-md-3.col-sm-4.user-bio-wrap
+        .user-img-wrap
+          = image_tag @user.profile_picture, class: "user-img"
+        .user-bio
+          h4.txt1
+            = @user.full_name
+          p.txt2 Guitar
+          p.status
+            span.num-text
+              i.fa.fa-circle.g-color.mg-right-5
+              | Available
+      .col-md-3.col-sm-6.col-md-offset-6.col-sm-offset-6.prof-status
+        .col-lg-6.col-md-6.col-sm-6.col-xs-6.ta-left.pd-0.mg-top-10.pd-left-5
+          span.num-text
+            | Verified users
+            = image_tag "icon-tick.png", class: "mg-left-10"
+        .col-lg-3.col-md-3.col-sm-3.col-xs-3.pd-0.ta-center.b-right-1
+          h4.numbers +37
+          p.num-text Classes
+        .col-lg-3.col-md-3.col-sm-3.col-xs-3.pd-0.ta-center
+          h4.numbers 95%
+          p.num-text Reference
+    .listing-tab
+      .list-right-link-bar
+        .col-lg-3.col-md-offset-3.col-sm-offset-1.col-md-3.col-sm-1
+        .col-lg-6.col-md-6.col-sm-9.cta-icon-wrap.col-xs-10
+          .right-icon-first.heart-wrap
+            i.fa.fa-heart
+          .right-icon-first
+            i.fa.fa-envelope
+          .right-icon-sec
+            i.fa.fa-ellipsis-h
+      /! Nav tabs
+      ul.nav.nav-tabs role="tablist" 
+        li.active role="presentation" 
+          a aria-controls="profInfo" data-toggle="tab" href="#activity" role="tab"  ACTIVITY
+      /! Tab panes
+      .tab-content
+        #activity.tab-pane.active role="tabpanel" 
+          .row
+            .col-md-5.col-sm-5.act-left
+              .profile-block.date-block
+                p.prof-block-title Today
+                ul.profile-block-ul
+                  - @student_activity.each do |sa|
+                    li
+                      span.time-dot 
+                        = sa.updated_at.strftime("%H.%M")
+                      p.prof-blog-title
+                        = "#{@user.first_name} has started a new Guita Class with #{@teacher.first_name}"
+                      span.star-wrap
+                         = image_tag "5star.png"
+            .col-md-5.col-sm-5.act-middle
+              p.prof-block-title
+                | Last Reviews
+                span (128)
+              .profile-block
+                ul.profile-block-ul
+                  li
+                    span.star-wrap
+                      = image_tag "5star.png"
+                    p.prof-block-desc
+                      | Etiam sagittis nulla at quam. In massa. Integer leo
+                      | tortor, dignissim nec, volutpat id, luctus non, nisi. Morbi iaculis mollis
+                      | felis. Ut ullamcorper tortor. In et sapien. Cras id enim. Quisque venenatis
+                      | urna ac nulla. Praesent tincidunt.
+                    span.time-dot.dot-color1 L
+                    p.prof-blog-title
+                      | By
+                      span.by-name Lora Abgale
+              .profile-block
+                ul.profile-block-ul
+                  li
+                    span.star-wrap
+                      = image_tag "5star.png"
+                    p.prof-block-desc
+                      | Etiam sagittis nulla at quam. In massa. Integer leo
+                      | tortor, dignissim nec, volutpat id, luctus non, nisi. Morbi iaculis mollis
+                      | felis. Ut ullamcorper tortor. In et sapien. Cras id enim. Quisque venenatis
+                      | urna ac nulla. Praesent tincidunt.
+                    span.time-dot.dot-color2 L
+                    p.prof-blog-title
+                      | By
+                      span.by-name Lora Abgale
+              .review-cta
+                input.btn.btn-gray type="button" value=("More Reviews") /
+            .col-md-2.col-sm-2.act-right.pd-0.m-pd-left-15.m-pd-right-15
+              p.prof-block-title
+                | Recent Badges
+                span (63)
+              .ta-center.row.recent-badges
+                .recent-badges-block
+                  p “MUSIC ACADEMY LIVE TRUST MEMBER”
+                  = image_tag "verified.png"
+                .recent-badges-block
+                  p “GUITAR CENTURION”
+                  = image_tag "10hrs.png"
+                .recent-badges-block
+                  p “GUITAR BEGGINER”
+                  = image_tag "50hrs.png"
+= render "layouts/dashboard_footer"
+      

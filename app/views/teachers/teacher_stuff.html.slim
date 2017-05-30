@@ -1,0 +1,39 @@
+/ #regiModal.modal.fade aria-labelledby="myModalLabel" role="dialog" tabindex="-1"
+.modal-dialog.modal-lg role="document" 
+  .modal-content
+    .modal-header
+      button.close aria-label="Close" data-dismiss="modal" type="button" 
+        span aria-hidden="true"  Cancel
+      h4#myModalLabel.modal-title Teacher Stuff
+    .modal-body
+      = form_for(@stuff, url: teacher_stuff_path, method: :post, html: { multipart: true }) do |f|
+        = f.hidden_field :user_id
+        .tab-content
+          #stuff.tab-pane.active role="tabpanel"
+            div
+              .tab-c-title-wrap.mg-bottom-20
+                p.tab-c-title About you
+              .col-lg-6.col-md-6.col-sm-6.pd-0.pd-right-15.prof-info-left
+                .col-lg-6.col-md-6.col-sm-6.pd-left-0.pd-right-5.m-pd-0
+                  .form-group
+                    label.preson-desc
+                      span.fl-right 120
+                    = f.text_area(:about, class: "input-text", placeholder: "About your teacher life", rows: "5")
+                .col-lg-6.col-md-6.col-sm-6.pd-left-0.pd-right-5.m-pd-0
+                  .form-group
+                    = f.select(:instrument, ["Guitar", "Piano"])
+                .col-lg-6.col-md-6.col-sm-6.pd-left-0.pd-right-5.m-pd-0
+                  .form-group
+                    = f.text_field(:music_experince, class: "input-text", placeholder: "Music Experience(in percents)")
+                .col-lg-6.col-md-6.col-sm-6.pd-left-0.pd-right-5.m-pd-0
+                  .form-group
+                    = f.text_field(:teach_experince, class: "input-text", placeholder: "Teaching Experience(in percents)")
+                .col-lg-6.col-md-6.col-sm-6.pd-left-0.pd-right-5.m-pd-0
+                  .form-group
+                    = f.text_field(:graduate, class: "input-text", placeholder: "Music Professional (Graduate)(in percents)")
+            .modal-footer
+              div
+                button.btn.btn-default aria-label="Close" data-dismiss="modal" type="button" 
+                  | Cancel
+                button.btn.btn-gray type="submit"  Save
+

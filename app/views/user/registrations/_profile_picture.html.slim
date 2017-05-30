@@ -1,0 +1,23 @@
+.row
+  .col-lg-6.col-md-6.col-sm-6.pd-right-30.pd-bottom-20
+    .tab-c-title-wrap
+      p.tab-c-title.font-12 PROFILE PICTURE
+    .form-group
+      p.font-14 Choose a photo for your professional profile
+      .col-lg-8.col-md-8.col-sm-8.pd-0
+        = image_tag @user.profile_picture, class: "current-pro-pic"
+      .col-lg-4.col-md-4.col-sm-4.m-pd-0.m-mg-top-15
+        button.btn.btn-gray.font-12.del-btn type="button"  Delete Photo
+  .col-lg-6.col-md-6.col-sm-6.pd-top-35.pd-left-30.m-pd-top-0.m-pd-left-15.pro-pic-right
+    .form-group.mg-bottom-30
+      .fileUpload.btn.btn-gray
+        span Upload
+        = f.file_field(:avatar, class: "upload")
+      label.file-label
+        | No file attached.
+        br>/
+        | \.jpg, .png, .gif only.
+.modal-footer
+  div
+    button.btn.btn-default.backStep1 type="button"  Cancel
+    button.btn.btn-gray.gotoStep3 type="submit"  Next Step

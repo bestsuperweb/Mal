@@ -1,0 +1,593 @@
+section#subHeader.sub-header-prof
+  .container
+    .profile-header
+      .col-lg-3.col-md-3.col-sm-5.col-md-offset-9.col-sm-offset-7
+        p 
+          = @user.description
+        input.btn.btn-info type="button" value=("Request a Class") /
+section#profile.listing
+  .container
+    .row.profile-head
+      .col-md-3.col-sm-4.user-bio-wrap
+        .user-img-wrap
+          = image_tag @user.profile_picture, class: "user-img"
+        .user-bio
+          h4.txt1
+            = @user.full_name
+          p.txt2 
+            = @stuff.instrument
+          p.status
+            span.num-text
+              - if @user.online?
+                i.fa.fa-circle.g-color.mg-right-5
+                | Available
+              - else
+                i.fa.fa-circle.red-color.mg-right-5
+                | Unavailable
+      .col-md-3.col-sm-6.col-md-offset-6.col-sm-offset-6.prof-status
+        .col-lg-6.col-md-6.col-sm-6.col-xs-6.ta-left.pd-0.mg-top-10.pd-left-5
+          span.num-text
+            | Verified users
+            = image_tag "icon-tick.png", class: "mg-left-10"
+        .col-lg-3.col-md-3.col-sm-3.col-xs-3.pd-0.ta-center.b-right-1
+          h4.numbers +37
+          p.num-text Classes
+        .col-lg-3.col-md-3.col-sm-3.col-xs-3.pd-0.ta-center
+          h4.numbers 95%
+          p.num-text Reference
+    .listing-tab
+      .list-right-link-bar
+        .col-lg-3.col-md-offset-3.col-sm-offset-1.col-md-3.col-sm-1
+        .col-lg-6.col-md-6.col-sm-9.cta-icon-wrap.col-xs-10
+          .right-icon-first.heart-wrap
+            i.fa.fa-heart
+          .right-icon-first
+            i.fa.fa-envelope
+          .right-icon-sec
+            i.fa.fa-ellipsis-h
+      /! Nav tabs
+      ul.nav.nav-tabs role="tablist" 
+        li.active role="presentation" 
+          a aria-controls="profInfo" data-toggle="tab" href="#activity" role="tab"  ACTIVITY
+        li role="presentation" 
+          a aria-controls="about" data-toggle="tab" href="#about" role="tab"  ABOUT
+        li role="presentation" 
+          a aria-controls="lessons" data-toggle="tab" href="#lessons" role="tab"  LESSONS
+        li role="presentation" 
+          a aria-controls="badges" data-toggle="tab" href="#badges" role="tab"  BADGES
+        li role="presentation" 
+          a aria-controls="reviews" data-toggle="tab" href="#reviews" role="tab"  REVIEWS
+        li role="presentation" 
+          a aria-controls="planPay" data-toggle="tab" href="#availablity" role="tab"  AVAILABLITY
+      /! Tab panes
+      .tab-content
+        #activity.tab-pane.active role="tabpanel" 
+          .row
+            .col-md-5.col-sm-5.act-left
+              .profile-block.date-block
+                p.prof-block-title Today
+                ul.profile-block-ul
+                  li
+                    span.time-dot 22.10
+                    p.prof-blog-title
+                      | Marcus has started a new Guita Class with Elizabeth
+                      | Kraus
+                    span.star-wrap
+                       = image_tag "5star.png"
+                  li
+                    span.time-dot 22.10
+                    p.prof-blog-title
+                      | Marcus has started a new Guita Class with Elizabeth
+                      | Kraus
+                    /! span class="star-wrap"><img src="img/4star.png"></span
+                  li
+                    span.time-dot 22.10
+                    p.prof-blog-title
+                      = image_tag "icon-tick.png", class: "mg-right-5"
+                      | Marcus has started a
+                      | new Guita Class with Elizabeth
+                      | Kraus
+                    span.star-wrap
+                       = image_tag "2star.png"
+              .profile-block.date-block
+                p.prof-block-title September 15, 2015
+                ul.profile-block-ul
+                  li
+                    span.time-dot 22.10
+                    p.prof-blog-title
+                      | Marcus has started a new Guita Class with Elizabeth
+                      | Kraus
+                    /! <span class="star-wrap"><img src="img/5star.png"></span
+                  li
+                    span.time-dot 22.10
+                    p.prof-blog-title
+                      | Marcus has started a new Guita Class with Elizabeth
+                      | Kraus
+                    span.star-wrap
+                      = image_tag "4star.png"
+                  li
+                    span.time-dot 22.10
+                    p.prof-blog-title
+                      | Marcus has started a new Guita Class with Elizabeth
+                      | Kraus
+                    /! <span class="star-wrap"><img src="img/2star.png"></span
+            .col-md-5.col-sm-5.act-middle
+              p.prof-block-title
+                | Last Reviews
+                span (128)
+              .profile-block
+                ul.profile-block-ul
+                  li
+                    span.star-wrap
+                      = image_tag "5star.png"
+                    p.prof-block-desc
+                      | Etiam sagittis nulla at quam. In massa. Integer leo
+                      | tortor, dignissim nec, volutpat id, luctus non, nisi. Morbi iaculis mollis
+                      | felis. Ut ullamcorper tortor. In et sapien. Cras id enim. Quisque venenatis
+                      | urna ac nulla. Praesent tincidunt.
+                    span.time-dot.dot-color1 L
+                    p.prof-blog-title
+                      | By
+                      span.by-name Lora Abgale
+              .profile-block
+                ul.profile-block-ul
+                  li
+                    span.star-wrap
+                      = image_tag "5star.png"
+                    p.prof-block-desc
+                      | Etiam sagittis nulla at quam. In massa. Integer leo
+                      | tortor, dignissim nec, volutpat id, luctus non, nisi. Morbi iaculis mollis
+                      | felis. Ut ullamcorper tortor. In et sapien. Cras id enim. Quisque venenatis
+                      | urna ac nulla. Praesent tincidunt.
+                    span.time-dot.dot-color2 L
+                    p.prof-blog-title
+                      | By
+                      span.by-name Lora Abgale
+              .review-cta
+                input.btn.btn-gray type="button" value=("More Reviews") /
+            .col-md-2.col-sm-2.act-right.pd-0.m-pd-left-15.m-pd-right-15
+              p.prof-block-title
+                | Recent Badges
+                span (63)
+              .ta-center.row.recent-badges
+                .recent-badges-block
+                  p “MUSIC ACADEMY LIVE TRUST MEMBER”
+                  = image_tag "verified.png"
+                .recent-badges-block
+                  p “GUITAR CENTURION”
+                  = image_tag "10hrs.png"
+                .recent-badges-block
+                  p “GUITAR BEGGINER”
+                  = image_tag "50hrs.png"
+        #about.tab-pane role="tabpanel" 
+          .row
+            .col-md-6.col-sm-6.about-left
+              .about-block
+                h4 
+                  | About 
+                  = @user.first_name
+                p.about-desc
+                  = @stuff.about
+              .about-block
+                h4 Instruments
+                .instr-wrap
+                  .row.instr-line-block
+                    .col-md-2.col-sm-2.col-xs-2.instru-img
+                    .col-md-6.col-sm-6.col-xs-6.pd-0
+                    .col-md-2.col-sm-2.col-xs-2.ta-center
+                      p.font-10 Students
+                    .col-md-2.col-sm-2.col-xs-2.ta-center.m-pd-right-0
+                      p.font-10 Total Hours
+                  - @lessons.each do |l|
+                    .row.instr-line-block
+                      .col-md-2.col-sm-2.col-xs-2.instru-img
+                        = image_tag "icon-guitar.png"
+                      .col-md-6.col-sm-6.col-xs-6.pd-0
+                        p
+                          = l.name
+                      .col-md-2.col-sm-2.col-xs-2.ta-center
+                        p 20
+                      .col-md-2.col-sm-2.col-xs-2.ta-center
+                        p 65
+              .about-block
+                h4 Skills
+                .skill-wrap
+                  .row
+                    .col-md-2.col-sm-2.skill-container
+                      p.font-12.ta-center.primary-color.mg-bottom-10
+                        | MUSIC ACADEMY LIVE
+                        | RANGE
+                      h4.font-20.ta-center.mg-top-10.mg-bottom-10 95%
+                      p.font-10.ta-center.color-gray1 GRADE
+                    .col-md-10.col-sm-10
+                      .progress-div
+                        p
+                          | Music Experience
+                          span.progress-status
+                            = "#{@stuff.music_experince} %"
+                        .progress
+                          .progress-bar aria-valuemax="100" aria-valuemin="0" aria-valuenow="60" role="progressbar" style=("width: #{@stuff.music_experince}%;") 
+                            span.sr-only 60% Complete
+                      .progress-div
+                        p
+                          | Music Professional (Graduate)
+                          span.progress-status
+                            = "#{@stuff.graduate} %"
+                        .progress
+                          .progress-bar aria-valuemax="100" aria-valuemin="0" aria-valuenow="60" role="progressbar" style=("width: #{@stuff.graduate}%;") 
+                            span.sr-only 20% Complete
+                      .progress-div
+                        p
+                          | Teaching Experience
+                          span.progress-status 
+                            = "#{@stuff.teach_experince} %"
+                        .progress
+                          .progress-bar aria-valuemax="100" aria-valuemin="0" aria-valuenow="60" role="progressbar" style=("width: #{@stuff.teach_experince}%;") 
+                            span.sr-only 100% Complete
+            .col-md-1.col-sm-1
+            .col-md-5.col-sm-5.about-right
+              .row
+                .about-block
+                  h4 Video Presentation
+                  = image_tag "video-thumb.jpg", class: "img-responsive"
+                .about-block
+                  h4 Audio Samples
+                  = image_tag "audio.jpg", class: "img-responsive"
+        #lessons.tab-pane role="tabpanel" 
+          .row
+            .col-md-6.col-sm-6.lesson-left
+              .lesson-accor
+                #accordion.panel-group aria-multiselectable="true" role="tablist"
+                  - @lessons.each do |lesson|
+                    .panel.panel-default.br-none
+                      #headingOne.panel-heading role="tab" 
+                        h4.panel-title
+                          = image_tag "icon-guitar.png"
+                          a.fa.fa-caret-down aria-controls="collapseOne" aria-expanded="true" data-parent="#accordion" data-toggle="collapse" href="#collapseOne" role="button" 
+                            = lesson.name
+                      #collapseOne.panel-collapse.collapse.in aria-labelledby="headingOne" role="tabpanel" 
+                        .panel-body
+                          .lesson-block
+                            p.primary-color.mg-bottom-10
+                              = lesson.level
+                            p
+                              = lesson.description
+                            p
+                              | Recommended Hours to Learn Acoustic Guitar
+                              span.fl-right
+                                = "#{lesson.duration}:00"
+                            - if user_signed_in
+                              = form_for(@class_room, url: request_class_path, method: :post) do |f|
+                                = f.hidden_field :lesson_id, value: lesson.id
+                                = f.hidden_field :teacher_id, value: @user.id
+                                = f.hidden_field :student_id, value: current_user.id
+                              input.btn.btn-info.request-btn type="submit" value=("Request a Class") /
+                          / .lesson-block
+                          /   p.primary-color.mg-bottom-10 Begginners
+                          /   p
+                          /     | Etiam sagittis nulla at quam. In massa. Integer leo tortor,
+                          /     | dignissim nec, volutpat id, luctus non, nisi. Morbi iaculis
+                          /     | mollis felis. Ut ullamcorper tortor. In et sapien. Cras id enim.
+                          /     | Quisque venenatis urna ac nulla. Praesent tincidunt.
+                          /   p
+                          /     | Recommended Hours to Learn Acoustic Guitar
+                          /     span.fl-right 40:00
+                            / input.btn.btn-info.request-btn type="button" value=("Request a Class") /
+            .col-md-1.lesson-middle
+            .col-md-5.col-sm-6.lesson-right
+              .lesson-block
+                p.prof-block-title Highlights
+                ul.lesson-ul
+                  li
+                    | Nullam vel nisi sit amet diam tristique aliquet. Suspendisse ac mauris. Fusce
+                    | libero felis, ultrices sed, tincidunt vel, auctor id, velit.
+                  li
+                    | Nullam vel nisi sit amet diam tristique aliquet. Suspendisse ac mauris. Fusce
+                    | libero felis, ultrices sed, tincidunt vel, auctor id, velit.
+                  li
+                    | Nullam vel nisi sit amet diam tristique aliquet. Suspendisse ac mauris. Fusce
+                    | libero felis, ultrices sed, tincidunt vel, auctor id, velit.
+              .lesson-block
+                p.prof-block-title What you will need before start
+                ul.lesson-ul
+                  li
+                    | Nullam vel nisi sit amet diam tristique aliquet. Suspendisse ac mauris. Fusce
+                    | libero felis, ultrices sed, tincidunt vel, auctor id, velit.
+                  li
+                    | Nullam vel nisi sit amet diam tristique aliquet. Suspendisse ac mauris. Fusce
+                    | libero felis, ultrices sed, tincidunt vel, auctor id, velit.
+                  li
+                    | Nullam vel nisi sit amet diam tristique aliquet. Suspendisse ac mauris. Fusce
+                    | libero felis, ultrices sed, tincidunt vel, auctor id, velit.
+              .lesson-block
+                p.prof-block-title Marcus Recent Lessons
+                ul.profile-block-ul
+                  li
+                    span.time-dot 22.10
+                    p.prof-blog-title
+                      | Marcus has started a new Guita Class with
+                      span.by-name Tommy Dunster
+                  li
+                    span.time-dot 22.10
+                    p.prof-blog-title
+                      | Marcus has started a new Guita Class with
+                      span.by-name Tommy Dunster
+                  li
+                    span.time-dot 22.10
+                    p.prof-blog-title
+                      | Marcus has started a new Guita Class with
+                      span.by-name Tommy Dunster
+        #badges.tab-pane role="tabpanel" 
+          | 4
+        #reviews.tab-pane role="tabpanel" 
+          .row
+            .col-md-6.col-sm-6.review-left
+              div
+                p.prof-block-title.fl-left Reviews
+                .ui.selection.dropdown.fl-right
+                  input name="selection" type="hidden" /
+                  i.dropdown.icon
+                  .default.text All Instrument
+                  .menu
+                    .item data-value="male"  Guitor
+                    .item data-value="female"  Base
+              .profile-block
+                ul.profile-block-ul
+                  li
+                    span.star-wrap
+                      = image_tag "5star.png"
+                    p.prof-block-desc
+                      | Etiam sagittis nulla at quam. In massa. Integer leo
+                      | tortor, dignissim nec, volutpat id, luctus non, nisi. Morbi iaculis mollis
+                      | felis. Ut ullamcorper tortor. In et sapien. Cras id enim. Quisque venenatis
+                      | urna ac nulla. Praesent tincidunt.
+                    span.time-dot.dot-color1 L
+                    = image_tag "icon-guitar.png", class: "review-icon-small"
+                    p.prof-blog-title
+                      | By
+                      span.by-name Lora Abgale
+              .profile-block
+                ul.profile-block-ul
+                  li
+                    span.star-wrap
+                      = image_tag "5star.png"
+                    p.prof-block-desc
+                      | Etiam sagittis nulla at quam. In massa. Integer leo
+                      | tortor, dignissim nec, volutpat id, luctus non, nisi. Morbi iaculis mollis
+                      | felis. Ut ullamcorper tortor. In et sapien. Cras id enim. Quisque venenatis
+                      | urna ac nulla. Praesent tincidunt.
+                    span.time-dot.dot-color2 L
+                    = image_tag "icon-guitar.png", class: "review-icon-small"
+                    p.prof-blog-title
+                      | By
+                      span.by-name Lora Abgale
+              .review-cta
+                input.btn.btn-gray type="button" value=("More Reviews") /
+            .col-md-1.review-left
+            .col-md-5.col-sm-6.review-left
+              div
+                .about-block
+                  h4 Performance
+                  .instr-wrap
+                    .row.instr-line-block
+                      .col-md-2.col-sm-2.col-xs-2.instru-img
+                      .col-md-6.col-sm-5.col-xs-4.pd-0
+                      .col-md-2.col-sm-3.col-xs-4.ta-center
+                        p.font-12 Rate
+                      .col-md-2.col-sm-2.col-xs-2.ta-center
+                        p.font-12 Students
+                    .row.instr-line-block
+                      .col-md-2.col-sm-2.col-xs-2.instru-img
+                        = image_tag "icon-guitar.png"
+                      .col-md-6.col-sm-5.col-xs-4.pd-0
+                        p Acoustic Guitar
+                      .col-md-2.col-sm-3.col-xs-4.ta-center
+                        = image_tag "5star.png"
+                      .col-md-2.col-sm-2.col-xs-2.ta-center
+                        p 65
+                    .row.instr-line-block
+                      .col-md-2.col-sm-2.col-xs-2.instru-img
+                        = image_tag "icon-guitar.png"
+                      .col-md-6.col-sm-5.col-xs-4.pd-0
+                        p Acoustic Guitar
+                      .col-md-2.col-sm-3.col-xs-4.ta-center
+                        = image_tag "5star.png"
+                      .col-md-2.col-sm-2.col-xs-2.ta-center
+                        p 65
+                    .row.instr-line-block
+                      .col-md-2.col-sm-2.col-xs-2.instru-img
+                        = image_tag "icon-guitar.png"
+                      .col-md-6.col-sm-5.col-xs-4.pd-0
+                        p Acoustic Guitar
+                      .col-md-2.col-sm-3.col-xs-4.ta-center
+                        = image_tag "5star.png"
+                      .col-md-2.col-sm-2.col-xs-2.ta-center
+                        p 65
+        #availablity.tab-pane.availablity role="tabpanel" 
+          .row
+            .col-lg-7.col-md-7.col-sm-7
+              .profile-block.date-block
+                p.prof-block-title Chat
+                .col-lg-3.col-md-3.col-sm-3.m-pd-0
+                  button.btn.online-btn type="button" 
+                    span.num-text
+                      i.fa.fa-circle.g-color.mg-right-5
+                      | Available
+                .col-lg-9.col-md-9.col-sm-9.avail-chat-block.m-pd-0
+                  h4 Marcus is live to attend your answers
+                  p
+                    | Nullam vel nisi sit amet diam tristique aliquet. Suspendisse ac mauris. Fusce
+                    | libero felis, ultrices sed, tincidunt vel, auctor id, velit.
+                  input.btn.btn-success.start-chat type="button" value=("Start A Chat Request") /
+              .profile-block.date-block
+                p.prof-block-title Today Available Time
+                .time-table
+                  .row.slot-row
+                    .col-lg-2.col-md-2.col-sm-2.col-xs-4.pd-0.ta-center
+                      p.slot-na 0:00 - 09:00
+                    .col-lg-8.col-md-8.col-sm-8.col-xs-6
+                      hr.slot-br/
+                    .col-lg-2.col-md-2.col-sm-2.col-xs-2.m-pd-0
+                  .row.slot-row
+                    .col-lg-2.col-md-2.col-sm-2.col-xs-4.pd-0.ta-center
+                      p.slot-yes 16:00 - 18:00
+                    .col-lg-8.col-md-8.col-sm-8.col-xs-6
+                      hr.slot-br/
+                    .col-lg-2.col-md-2.col-sm-2.col-xs-2.m-pd-0
+                      span.time-dot.slot-yes-circle yes
+                    .col-sm-10.col-lg-10.col-md-10
+                      p.slot-yes-content
+                        | Nullam vel nisi sit amet diam tristique aliquet.
+                        | Suspendisse ac mauris. Fusce libero felis, ultrices sed, tincidunt vel,
+                        | auctor id, velit.
+                      input.btn.btn-info.request-btn type="button" value=("Request a Class") /
+                  .row.slot-row
+                    .col-lg-2.col-md-2.col-sm-2.col-xs-4.pd-0.ta-center
+                      p.slot-no 18:00 - 00:00
+                    .col-lg-8.col-md-8.col-sm-8.col-xs-6
+                      hr.slot-br/
+                    .col-lg-2.col-md-2.col-sm-2.col-xs-2.m-pd-0
+                      span.time-dot.slot-no-circle no
+                  .row.slot-row
+                    .col-lg-2.col-md-2.col-sm-2.col-xs-4.pd-0.ta-center
+                      p.slot-yes 16:00 - 18:00
+                    .col-lg-8.col-md-8.col-sm-8.col-xs-6
+                      hr.slot-br/
+                    .col-lg-2.col-md-2.col-sm-2.col-xs-2.m-pd-0
+                      span.time-dot.slot-yes-circle yes
+                    .col-sm-10.col-lg-10.col-md-10
+                      p.slot-yes-content
+                        | Nullam vel nisi sit amet diam tristique aliquet.
+                        | Suspendisse ac mauris. Fusce libero felis, ultrices sed, tincidunt vel,
+                        | auctor id, velit.
+                      input.btn.btn-info.request-btn type="button" value=("Request a Class") /
+            .col-lg-5.col-md-5.col-sm-5
+              .profile-block.date-block
+                h4.prof-block-title Marcus September 2015 Availability
+                .calendar-container
+                  ul.cal-ul-days
+                    li
+                      .radiocal
+                        label Sunday
+                    li
+                      .radiocal
+                        label Mon
+                    li
+                      .radiocal
+                        label Tue
+                    li
+                      .radiocal
+                        label Wed
+                    li
+                      .radiocal
+                        label Thu
+                    li
+                      .radiocal
+                        label Friday
+                    li
+                      .radiocal
+                        label Saturday
+                  ul.cal-ul
+                    li
+                      .radiocal
+                    li
+                      .radiocal
+                    li
+                      .radiocal
+                    li
+                      .radiocal
+                    li
+                      .radiocal
+                        input#optionsSkinType1 data-content=("<input type='button' class='dateoption' value='Request a Class'>") data-html="true" data-placement="top" data-toggle="popover" data-trigger="focus" name="optionsSkinType" type="button" value="1" /
+                    li
+                      .radiocal
+                        input#optionsSkinType2 data-content=("<input type='button' class='dateoption' value='Request a Class'>") data-html="true" data-placement="top" data-toggle="popover" data-trigger="focus" name="optionsSkinType" type="button" value="2" /
+                    li
+                      .radiocal
+                        input#optionsSkinType3 data-content=("<input type='button' class='dateoption' value='Request a Class'>") data-html="true" data-placement="top" data-toggle="popover" data-trigger="focus" name="optionsSkinType" type="button" value="3" /
+                    li
+                      .radiocal
+                        input#optionsSkinType4.red data-content=("<input type='button' class='dateoption' value='Request a Class'>") data-html="true" data-placement="top" data-toggle="popover" data-trigger="focus" name="optionsSkinType" type="button" value="4" /
+                    li
+                      .radiocal
+                        input#optionsSkinType5 data-content=("<input type='button' class='dateoption' value='Request a Class'>") data-html="true" data-placement="top" data-toggle="popover" data-trigger="focus" name="optionsSkinType" type="button" value="5" /
+                    li
+                      .radiocal
+                        input#optionsSkinType6 data-content=("<input type='button' class='dateoption' value='Request a Class'>") data-html="true" data-placement="top" data-toggle="popover" data-trigger="focus" name="optionsSkinType" type="button" value="6" /
+                    li
+                      .radiocal
+                        input#optionsSkinType7 data-content=("<input type='button' class='dateoption' value='Request a Class'>") data-html="true" data-placement="top" data-toggle="popover" data-trigger="focus" name="optionsSkinType" type="button" value="7" /
+                    li
+                      .radiocal
+                        input#optionsSkinType8 data-content=("<input type='button' class='dateoption' value='Request a Class'>") data-html="true" data-placement="top" data-toggle="popover" data-trigger="focus" name="optionsSkinType" type="button" value="8" /
+                    li
+                      .radiocal
+                        input#optionsSkinType9 data-content=("<input type='button' class='dateoption' value='Request a Class'>") data-html="true" data-placement="top" data-toggle="popover" data-trigger="focus" name="optionsSkinType" type="button" value="9" /
+                    li
+                      .radiocal
+                        input#optionsSkinType10 data-content=("<input type='button' class='dateoption' value='Request a Class'>") data-html="true" data-placement="top" data-toggle="popover" data-trigger="focus" name="optionsSkinType" type="button" value="10" /
+                    li
+                      .radiocal
+                        input#optionsSkinType11.red data-content=("<input type='button' class='dateoption' value='Request a Class'>") data-html="true" data-placement="top" data-toggle="popover" data-trigger="focus" name="optionsSkinType" type="button" value="11" /
+                    li
+                      .radiocal
+                        input#optionsSkinType12 data-content=("<input type='button' class='dateoption' value='Request a Class'>") data-html="true" data-placement="top" data-toggle="popover" data-trigger="focus" name="optionsSkinType" type="button" value="12" /
+                    li
+                      .radiocal
+                        input#optionsSkinType13 data-content=("<input type='button' class='dateoption' value='Request a Class'>") data-html="true" data-placement="top" data-toggle="popover" data-trigger="focus" name="optionsSkinType" type="button" value="13" /
+                    li
+                      .radiocal
+                        input#optionsSkinType14 data-content=("<input type='button' class='dateoption' value='Request a Class'>") data-html="true" data-placement="top" data-toggle="popover" data-trigger="focus" name="optionsSkinType" type="button" value="14" /
+                    li
+                      .radiocal
+                        input#optionsSkinType15 data-content=("<input type='button' class='dateoption' value='Request a Class'>") data-html="true" data-placement="top" data-toggle="popover" data-trigger="focus" name="optionsSkinType" type="button" value="15" /
+                    li
+                      .radiocal
+                        input#optionsSkinType16 data-content=("<input type='button' class='dateoption' value='Request a Class'>") data-html="true" data-placement="top" data-toggle="popover" data-trigger="focus" name="optionsSkinType" type="button" value="16" /
+                    li
+                      .radiocal
+                        input#optionsSkinType17 data-content=("<input type='button' class='dateoption' value='Request a Class'>") data-html="true" data-placement="top" data-toggle="popover" data-trigger="focus" name="optionsSkinType" type="button" value="17" /
+                    li
+                      .radiocal
+                        input#optionsSkinType18.red data-content=("<input type='button' class='dateoption' value='Request a Class'>") data-html="true" data-placement="top" data-toggle="popover" data-trigger="focus" name="optionsSkinType" type="button" value="18" /
+                    li
+                      .radiocal
+                        input#optionsSkinType19 data-content=("<input type='button' class='dateoption' value='Request a Class'>") data-html="true" data-placement="top" data-toggle="popover" data-trigger="focus" name="optionsSkinType" type="button" value="19" /
+                    li
+                      .radiocal
+                        input#optionsSkinType20 data-content=("<input type='button' class='dateoption' value='Request a Class'>") data-html="true" data-placement="top" data-toggle="popover" data-trigger="focus" name="optionsSkinType" type="button" value="20" /
+                    li
+                      .radiocal
+                        input#optionsSkinType21 data-content=("<input type='button' class='dateoption' value='Request a Class'>") data-html="true" data-placement="top" data-toggle="popover" data-trigger="focus" name="optionsSkinType" type="button" value="21" /
+                    li
+                      .radiocal
+                        input#optionsSkinType22 data-content=("<input type='button' class='dateoption' value='Request a Class'>") data-html="true" data-placement="top" data-toggle="popover" data-trigger="focus" name="optionsSkinType" type="button" value="22" /
+                    li
+                      .radiocal
+                        input#optionsSkinType23 data-content=("<input type='button' class='dateoption' value='Request a Class'>") data-html="true" data-placement="top" data-toggle="popover" data-trigger="focus" name="optionsSkinType" type="button" value="23" /
+                    li
+                      .radiocal
+                        input#optionsSkinType24 data-content=("<input type='button' class='dateoption' value='Request a Class'>") data-html="true" data-placement="top" data-toggle="popover" data-trigger="focus" name="optionsSkinType" type="button" value="24" /
+                    li
+                      .radiocal
+                        input#optionsSkinType25.red data-content=("<input type='button' class='dateoption' value='Request a Class'>") data-html="true" data-placement="top" data-toggle="popover" data-trigger="focus" name="optionsSkinType" type="button" value="25" /
+                    li
+                      .radiocal
+                        input#optionsSkinType26 data-content=("<input type='button' class='dateoption' value='Request a Class'>") data-html="true" data-placement="top" data-toggle="popover" data-trigger="focus" name="optionsSkinType" type="button" value="26" /
+                    li
+                      .radiocal
+                        input#optionsSkinType27 data-content=("<input type='button' class='dateoption' value='Request a Class'>") data-html="true" data-placement="top" data-toggle="popover" data-trigger="focus" name="optionsSkinType" type="button" value="27" /
+                    li
+                      .radiocal
+                        input#optionsSkinType28 data-content=("<input type='button' class='dateoption' value='Request a Class'>") data-html="true" data-placement="top" data-toggle="popover" data-trigger="focus" name="optionsSkinType" type="button" value="28" /
+                    li
+                      .radiocal
+                        input#optionsSkinType29 data-content=("<input type='button' class='dateoption' value='Request a Class'>") data-html="true" data-placement="top" data-toggle="popover" data-trigger="focus" name="optionsSkinType" type="button" value="29" /
+                    li
+                      .radiocal
+                        input#optionsSkinType30 data-content=("<input type='button' class='dateoption' value='Request a Class'>") data-html="true" data-placement="top" data-toggle="popover" data-trigger="focus" name="optionsSkinType" type="button" value="30" /
+                p.mg-top-20
+                  | Nullam vel nisi sit amet diam tristique aliquet. Suspendisse ac
+                  | mauris. Fusce libero felis, ultrices sed, tincidunt vel, auctor id, velit.
+= render "layouts/dashboard_footer"
+      

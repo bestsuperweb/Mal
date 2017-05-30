@@ -1,0 +1,11 @@
+- flash.each do |name, msg|
+  - case name
+  - when 'alert', 'error'
+    javascript:
+      alertify.error("#{j msg}");
+  - when 'notice', 'success'
+    javascript:
+      alertify.success("#{j msg}");
+  - else
+    javascript:
+      alertify.warning("#{j msg}");

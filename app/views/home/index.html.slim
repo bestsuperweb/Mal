@@ -1,0 +1,35 @@
+main
+  .container
+    .index
+      h1 Real one-on-one music lessons taught live by teachers worldwide
+      p Music Academy Live is your gateway to a new music learning experience. YOU pick your own schedule, YOU pick your teacher.
+      .select-area
+        = search_form_for @q, url: teachers_path do |f|
+          = f.select :instruments_name_eq, options_from_collection_for_select(Instrument.all, :name, :name), include_blank: "Any Instrument"
+          = f.select :genres_name_eq, options_from_collection_for_select(Genre.all, :name, :name), include_blank: "Any Genre"
+          = f.select :levels_name_eq, options_from_collection_for_select(Level.all, :name, :name), include_blank: "Any Level"
+          button
+            | FIND A TEACHER
+          .clearfix
+      /! select-area
+    /! end index
+    .service-index
+      .row
+        .col-md-4.col-sm-4.col-xs-12
+          .service-ct
+            = image_tag "sv-icon-3.png"
+            h4
+              / a href="#"  SET UP YOUR FREE ACCOUNT
+              = link_to "SET UP YOUR FREE ACCOUNT", register_path
+          /! end service-ct
+        .col-md-4.col-sm-4.col-xs-12
+          .service-ct
+            = image_tag "sv-icon-2.png"
+            h4
+              a href="#"  SEARCH +10,000 MUSIC TEACHERS
+          /! end service-ct
+        .col-md-4.col-sm-4.col-xs-12
+          .service-ct.border0
+            = image_tag "sv-icon-1.png"
+            h4
+              a href="#"  START LERNING A NEW STYLE!

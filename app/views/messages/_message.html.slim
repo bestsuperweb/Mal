@@ -1,0 +1,11 @@
+- user = message.user || User.new(first_name: "Test", last_name: "User")
+.message
+	.user-img
+		= image_tag user.avatar.url(:thumb), class: "avatar-circular-chat"
+	.content
+		h4
+			= user.first_name
+			span.timestamp
+				= (message.created_at || DateTime.now).strftime("%H:%M")
+		p
+			= message.body

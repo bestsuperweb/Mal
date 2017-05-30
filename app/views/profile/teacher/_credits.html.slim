@@ -1,0 +1,27 @@
+.part-1 style="width: 67%;"
+  .col-md-12
+    - if @user == current_user
+      - if @credits.any?
+        h4 align="center" You have #{pluralize(@credits.count, "unredeemed credit")}.
+        hr
+      - else
+        h4 You don't have any credits at the moment
+.part-2.bg-none style="float: right;"
+  h3 Redeem your credits
+  = form_tag redeem_path, method: :patch do
+    .row
+      .col-md-12
+        .form-group
+          label
+            |Quantity
+          em
+            = "(Maximum #{@credits.count})"
+          = number_field_tag :quantity, 1, class: "form-control", data: { validation: "number", "validation-allowing": "range[1;#{@credits.count}]", "validation-error-msg": "Invalid number of credits" }
+        .form-group
+          label Your PayPal email
+          = text_field_tag :email, '', class: "form-control", data: { validation: "email", "validation-error-msg": "Invalid email address." }
+        .form-group
+          label Amount per 1 credit: #{number_to_currency(site_setting("credit_redeem_price"))}
+        .form-group
+          = submit_tag "Redeem", class: "pull-right btn btn-primary btn-block blue-btn"
+  .clearfix

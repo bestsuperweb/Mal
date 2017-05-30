@@ -1,0 +1,73 @@
+.part-3.bg-white
+  ul.category          
+    - if @lessons.empty?
+      li
+        p
+          | No lessons yet
+    - else
+      - @lessons.pluck(:instrument).uniq.each do |i|
+        li
+          = image_tag "cate-left-1.png"
+          p
+            a data-toggle="tab" href="#lesson-#{i.parameterize}" role="tab" #{i}     
+.part-1.bg-gray
+  .tab-content
+    #lesson-general.tab-pane.active role="tabpanel"
+      = image_tag "icon-profile3.png"
+      h5 Pick a Class from the side menu to see more details!
+      ul
+        li Etiam sagittis nulla at quam. In massa. Integer leo tortor, dignissim.
+        li Nullam vel nisi sit amet diam tristique aliquet. Suspendisse ac mauris. Fusce libero felis, ultrices sed, tincidunt vel, auctor id, velit.
+    - @lessons.pluck(:instrument).uniq.each do |i|
+      .tab-pane role="tabpanel" id="lesson-#{i.parameterize}"
+        = image_tag "cate-left-1.png"
+        h4 #{i.titleize} Classes
+        hr
+        table width="100%;" style="text-align:left;"
+          tr
+            th width="25%;" Instrument
+            th width="25%;" Level
+            - if user_signed_in?
+              th width="25%;" Description
+              th width="25%;"
+            - else
+              th width="50%;" Description
+          - @lessons.where(instrument: i).each do |l|
+            tr
+              td width="25%;" #{l.instrument.try(:titleize)}
+              td width="25%;" #{l.level.try(:titleize)}
+              - if user_signed_in?              
+                td width="50%;" #{l.description}
+.part-2.bg-none
+  - if @user == current_user
+    h3 Add a Lesson
+    = form_for Lesson.new, url: create_lesson_path do |f|
+      .row
+        .col-md-12
+          .form-group
+            = f.label :name
+            = f.text_field :name, class: "form-control", data: { validation: "required", "validation-error-msg": "Name can't be blank" }
+          .form-group
+            = f.label :instrument
+            = f.select :instrument, options_from_collection_for_select(Instrument.all, :name, :name), {}, class: "form-control", data: { validation: "required", "validation-error-msg": "Instrument can't be blank" }
+          .form-group
+            = f.label :level
+            = f.select :level, options_from_collection_for_select(Level.all, :name, :name), {}, class: "form-control", data: { validation: "required", "validation-error-msg": "Level can't be blank" }
+          .form-group
+            = f.label :description
+            = f.text_area :description, rows: 5, class: "form-control", data: { validation: "required", "validation-error-msg": "Description can't be blank" }
+          .form-group
+            = f.submit "Add Lesson", class: "pull-right btn btn-primary btn-block blue-btn"
+  - else
+    table
+      - @teacher_activity.each do |ta|
+        tr
+          td
+            span
+              = ta.updated_at.strftime("%H.%M")
+            i
+          td
+            p
+              = "#{@user.first_name} has started a new Guita Class with "
+              = link_to "#{ta.recipient.first_name}", teacher_path(ta.recipient.id)
+.clearfix

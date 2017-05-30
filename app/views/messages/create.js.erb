@@ -1,0 +1,13 @@
+<% publish_to @path do %>
+	var chat = $('#chat-content');
+	var sender_id = "<%=j @message.user.try(:id).try(:to_s) %>";
+	var reciever_id = $('meta[name=user-id]').attr("content");
+
+	chat.append("<%= j render( partial: @message ) %>");
+	chat.scrollTop(chat.height());
+
+	if (sender_id != reciever_id) {
+		chat.scrollTop(chat.height());
+		chatBox.notify();
+	}
+<% end %>

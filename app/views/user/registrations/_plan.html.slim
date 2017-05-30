@@ -1,0 +1,52 @@
+.row
+  .col-lg-6.col-md-6.col-sm-6.pd-right-30
+    .tab-c-title-wrap
+      p.tab-c-title PLAN
+    .form-group
+      label.form-label Choose a Plan
+      .ui.selection.dropdown.dropdown-tab
+        input name="selection" type="hidden" /
+        i.dropdown.icon
+        .default.text Select
+        .menu
+          .item data-value=("basic 3 credit") 
+            | Basic 3 Credits ($9.99)
+          .item data-value=("basic 10 credit") 
+            | Basic 10 Credits
+            | ($19.99)
+    .form-group.mg-top-25.mg-bottom-35
+      p.tab-c-title PAYMENT METHOD
+      div
+        input.cbox name="payment-method" type="checkbox" /
+        = image_tag "paypal.png", class: "mg-left-10"
+    .form-group
+      input.input-text placeholder=("Email Address / PaypalID") type="text" /
+    .form-group
+      input.input-text placeholder="Password" type="password" /
+  .col-lg-6.col-md-6.col-sm-6.pd-top-35.pd-left-30.m-pd-left-15
+    .form-group.credit-bt
+      label.form-label
+        | Choose a Plan
+        span.fl-right $8.99
+      p.credit-txt The Credits will expire 2015/12/15
+    .form-group.credit-bm
+      label.form-label
+        | Paypal Fee
+        span.fl-right $1.00
+    .form-group.credit-bb
+      label.form-label.primary-color
+        | Grand Total
+        span.fl-right CAD $9.99
+    .form-group
+      label.form-label Where should we send your receipt?
+      = image_tag "que-icon.png", class: "que-icon"
+      input.input-text.email-input placeholder=("Email Address") type="text" /
+    .form-group
+      label.form-label Choose a Plan
+      div
+        input.cbox name="payment-method" type="checkbox" /
+        p.font-12 I accept Terms of Service and Privacy Policy
+.modal-footer
+  div
+    button.btn.btn-default.backStep2 type="button"  Back
+    button.btn.btn-gray.finish type="button"  Process Payment

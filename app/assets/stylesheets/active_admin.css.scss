@@ -1,0 +1,30 @@
+@import "active_admin/mixins";
+@import "active_admin/base";
+@import "active_admin/select2/base";
+$skinLogo: asset-url("logo.png") no-repeat 0 0;
+$skinActiveColor: #36b3db;
+$skinHeaderBck: #00536c;
+$panelHeaderBck: #00536c;
+@import "active_skin";
+
+#header #utility_nav {
+  background: #ecf0f1;
+}
+#header h1.site_title {
+  padding-left:250px;
+  background-position: 10px 5px;
+}
+
+.dashboard-columns {
+  text-align: center;
+  h3 {
+    font-size:18px;
+  }
+  .panel_contents {
+    font-size: 24px;
+  }
+}
+
+body.active_admin .select2-container {
+	min-width: 200px;
+}

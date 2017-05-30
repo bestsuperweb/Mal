@@ -1,0 +1,6 @@
+<% if @error.present? %>
+  alertify.error("<%=j @error %>");
+<% else %>
+  $('#completed').html("<%=j render 'profile/teacher/completed' %>");
+  alertify.success("Credit was transferred to you");
+<% end %>

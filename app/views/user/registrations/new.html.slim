@@ -1,0 +1,51 @@
+section.intro-page
+  .container
+    .ct-intro-page
+      h5 REGISTRATION
+      h3 Create your Music Academy Live account. It's free to sign up!
+main
+  .register-intro
+    .row
+      .col-md-6.col-sm-6.col-xs-12
+        .students
+          .containt
+            .indexs
+              = image_tag "register-student.png"
+              .index-intro
+                h2 Students
+                p For people who want to learn or improve his music skills.
+            .intro
+              p Aliquam nec nulla ac nisi dignissim dictum. Phasellus quis tortor. In ullamcorper justo vitae mi. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos.
+              ul
+                li Aliquam nec nulla ac nisi dignissim dictum. Phasellus quis tortor. In ullamcorper justo vitae mi.
+                li Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos.
+                li Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos.
+            /! end intro
+            .sign-up
+              = form_tag(step1_path)
+                = hidden_field_tag :user_type, "Student"
+                input.btn-sign-up type="submit" value=("SIGN UP FOR A STUDENT ACCOUNT")
+              a href="#"  LEARN MORE
+              p Aliquam nec nulla ac nisi dignissim dictum. Phasellus quis tortor. In ullamcorper justo vitae mi.
+            /! end sign-up
+        /! end students
+      .col-md-6.col-sm-6.col-xs-12
+        .teachers
+          .containt
+            .indexs
+              = image_tag "register-teacher.png"
+              .index-intro
+                h2 Teacher
+                p For people who want to learn or improve his music skills.
+            .intro
+              p Aliquam nec nulla ac nisi dignissim dictum. Phasellus quis tortor. In ullamcorper justo vitae mi. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos.
+              ul
+                li Aliquam nec nulla ac nisi dignissim dictum. Phasellus quis tortor. In ullamcorper justo vitae mi.
+                li Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos.
+                li Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos.
+            .sign-up
+              = form_tag(step1_path)
+                = hidden_field_tag :user_type, "Teacher"
+                input.btn-sign-up type="submit" value=("SIGN UP FOR A TEACHER ACCOUNT") /
+              a href="#"  LEARN MORE
+              p Aliquam nec nulla ac nisi dignissim dictum. Phasellus quis tortor. In ullamcorper justo vitae mi.

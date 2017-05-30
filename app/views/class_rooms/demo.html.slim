@@ -1,0 +1,19 @@
+main
+  .container
+    section.class1
+      #demo
+javascript:
+  window.onload = function() {
+    var apiKey = "#{@api_key}";
+    var sessionId = "#{@sessionId}";
+    var token = "#{@token};"
+    var session;
+
+    session = OT.initSession(apiKey, sessionId);
+
+    session.connect(token);
+
+    var publisher = OT.initPublisher('demo', null);
+
+    session.publish(publisher);
+  }

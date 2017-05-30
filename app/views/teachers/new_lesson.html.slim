@@ -1,0 +1,50 @@
+section#subHeader.sub-header-prof
+  .container
+    .profile-header
+      .col-lg-3.col-md-3.col-sm-5.col-md-offset-9.col-sm-offset-7
+        p 
+          = @user.description
+        input.btn.btn-info type="button" value=("Request a Class") /
+section#profile.listing
+  .container
+    .row.profile-head
+      .col-md-3.col-sm-4.user-bio-wrap
+        .user-img-wrap
+          = image_tag @user.avatar.url(:thumb), class: "user-img"
+        .user-bio
+          h4.txt1
+            = @user.full_name
+          p.txt2 Guitar
+          p.status
+            span.num-text
+              i.fa.fa-circle.g-color.mg-right-5
+              | Available
+      .col-md-3.col-sm-6.col-md-offset-6.col-sm-offset-6.prof-status
+        .col-lg-6.col-md-6.col-sm-6.col-xs-6.ta-left.pd-0.mg-top-10.pd-left-5
+          span.num-text
+            | Verified users
+            = image_tag "icon-tick.png", class: "mg-left-10"
+        .col-lg-3.col-md-3.col-sm-3.col-xs-3.pd-0.ta-center.b-right-1
+          h4.numbers +37
+          p.num-text Classes
+        .col-lg-3.col-md-3.col-sm-3.col-xs-3.pd-0.ta-center
+          h4.numbers 95%
+          p.num-text Reference
+ 	= form_for(@lesson, url: create_lesson_path) do |f|
+ 		= f.hidden_field :user_id
+ 		div
+ 			.form-group
+ 				= f.label :name, "Name", class: "form-label"
+ 				= f.text_field :name, class: "input-text"
+ 			.form-group
+ 				= f.label :level, "Class level", class: "form-label"
+ 				= f.select(:level, ["Begginners", "Advanced", "Master class"]) 
+ 			.form-group
+ 				= f.label :description, "Description", class: "form-label"
+ 				= f.text_area :description, class: "input-text"
+ 			.form-group
+ 				= f.label :duration, "Duration of course(in hours)", class: "form-label"
+ 				= f.text_field :duration, class: "input-text"
+ 		.modal-footer
+ 			div
+ 				button.btn.btn-gray.blue-cta-btn type="submit"  Create

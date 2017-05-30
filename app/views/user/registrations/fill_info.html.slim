@@ -1,0 +1,35 @@
+/ #regiModal.modal.fade aria-labelledby="myModalLabel" role="dialog" tabindex="-1"
+.modal-dialog.modal-lg role="document" 
+  .modal-content
+    .modal-header
+      button.close aria-label="Close" data-dismiss="modal" type="button" 
+        span aria-hidden="true"  Cancel
+      - if @user.student?
+        h4#myModalLabel.modal-title Registration / Student
+      - else
+        h4#myModalLabel.modal-title Registration / Teacher
+    .modal-body
+      .regi-tab-wrap
+        /! Nav tabs
+        ul.nav.nav-tabs role="tablist" 
+          li.active role="presentation" 
+            a aria-controls="profInfo" data-toggle="tab" href="#profInfo" role="tab" 
+              span.stepno> 1
+              | Profile Information
+          li role="presentation" 
+            a aria-controls="picSet" data-toggle="tab" href="#picSet" role="tab" 
+              span.stepno> 2
+              | Picture and Settings
+          li role="presentation" 
+            a aria-controls="planPay" data-toggle="tab" href="#planPay" role="tab" 
+              span.stepno> 3
+              | Plan and Payment
+        /! Tab panes
+        = form_for(@user, url: update_info_path, html: { multipart: true }) do |f|
+          .tab-content
+            #profInfo.tab-pane.active role="tabpanel"
+              = render "personal_information", f: f
+            #picSet.tab-pane role="tabpanel"
+              = render "profile_picture", f: f
+            #planPay.tab-pane role="tabpanel" 
+              = render "plan"

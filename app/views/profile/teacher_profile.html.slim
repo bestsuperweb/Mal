@@ -1,0 +1,70 @@
+section.intro-page
+  .container
+    .ct-intro-page.negative-bottom-margin
+      .teacher-intro
+        = image_tag @user.avatar.url(:thumb), class: "avatar-circular"
+        h1
+          = @user.full_name
+        ul.breadcrums
+          li 
+            = link_to "#{@user.location}", teachers_path("q[city_cont]" => @user.city)
+      .favo
+        - if @user.current_rating.to_i > 0
+          b
+            - @user.current_rating.to_i.times do |i|
+              i.fa.fa-star
+            - (5 - @user.current_rating.to_i).times do |i|
+              i.fa.fa-star-o
+          |&nbsp;&nbsp;&nbsp;
+          span.rating #{@user.current_rating.to_i}/5
+        - if user_signed_in?
+          - unless @user == current_user
+            a.text-center data-toggle="tab" href="#availability" role="tab" id="request_class_btn" Request a Class
+        - else
+          = link_to "Sign In to Request a Class", new_user_session_path
+      .clearfix
+main
+  .container
+    .list-page
+      .nav-page
+        ul.tab-page role="tablist"
+          li.active role="presentation"
+            a.active data-toggle="tab" href="#activity" role="tab" ACTIVITY
+          li role="presentation"
+            a data-toggle="tab" href="#about" role="tab" ABOUT
+          li role="presentation"
+            a data-toggle="tab" href="#lessons" role="tab" LESSONS
+          li role="presentation"
+            a data-toggle="tab" href="#reviews" role="tab" REVIEWS
+          - if user_signed_in? && (current_user.student? || current_user == @user)
+            li role="presentation"
+              a data-toggle="tab" href="#availability" role="tab" id="availability-tab-btn" AVAILABILITY
+          - if user_signed_in? && current_user == @user
+            li role="presentation"
+              a data-toggle="tab" href="#completed_classes" role="tab" Completed Classes
+            li role="presentation"
+              a data-toggle="tab" href="#credits" role="tab" Credits
+            li role="presentation" class="pull-right"
+              a data-toggle="tab" href="#edit_profile" role="tab" EDIT PROFILE
+            li role="presentation" class="pull-right"
+              = link_to "Class Setup", demo_url, "data-no-turbolink" => true
+        .clearfix
+    .tab-content
+      #activity.profile.tab-pane.active role="tabpanel"
+        = render 'profile/teacher/activity'
+      #about.profile.tab-pane role="tabpanel"
+        = render 'profile/about'
+      #lessons.profile.tab-pane role="tabpanel"
+        = render 'profile/teacher/lessons'
+      #reviews.profile.tab-pane role="tabpanel"
+        = render 'profile/teacher/reviews'
+      - if user_signed_in? && (current_user.student? || current_user == @user)  
+        #availability.profile.tab-pane role="tabpanel"
+          = render 'profile/teacher/availability'
+      - if user_signed_in? && current_user == @user
+        #completed_classes.profile.tab-pane role="tabpanel"
+          = render 'profile/teacher/completed_classes'
+        #credits.profile.tab-pane role="tabpanel"
+          = render 'profile/teacher/credits'
+        #edit_profile.profile.tab-pane role="tabpanel"
+          = render 'profile/edit'
